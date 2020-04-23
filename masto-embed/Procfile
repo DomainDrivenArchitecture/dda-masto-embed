@@ -1,0 +1,1 @@
+web: java -Dclojure.main.report=stderr -cp target/uberjar/masto-embed.jar clojure.main -m masto-embed.core
