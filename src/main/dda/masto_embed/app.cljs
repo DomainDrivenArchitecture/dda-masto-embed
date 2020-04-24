@@ -49,5 +49,12 @@
               (exit-with-error error)
               (callback response)))))
 
+(defn render-to-document
+  [input]
+  (-> js/document
+      (.getElementById "mastodon-timeline")
+      (.-innerHTML)
+      (set! input)))
+
 (defn init []
-  (get-mastodon-timeline pprint))
+  (get-mastodon-timeline render-to-document))
