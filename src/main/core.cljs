@@ -2,7 +2,7 @@
 
 
 
-(defn test
+(defn mytest
   ""
   []
   "Hello world!")
