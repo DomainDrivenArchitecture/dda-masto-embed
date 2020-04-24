@@ -9,3 +9,4 @@ sudo npm i -g npx
 # Development
 
 npx shadow-cljs node-repl
+npx shadow-cljs watch frontend
