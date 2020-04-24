@@ -15,11 +15,12 @@
   (let [config (js-obj "api_url" "https://social.meissa-gmbh.de/api/v1/" "access_token" "...")
         masto (new Mastodon config)
         rest-endpoint "accounts/:id/statuses"
-        id-config (js-obj "id" "2")]
-    (pprint
-     (go
-       (let [response (<p! (.get masto rest-endpoint id-config))]
-         (get-content-seq response))))))
+        id-config (js-obj "id" "2")
+        result (go
+                 (let [response (<p! (.get masto rest-endpoint id-config))]
+                   (get-content-seq response)))]
+    (pprint result)
+    result))
 
 (defn add-one [a]
   (+ a 1))
