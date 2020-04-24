@@ -11,7 +11,7 @@
    (array-seq
     (aget response "data"))))
 
-(defn init []
+(defn luccas-fn []
   (let [config (js-obj "api_url" "https://social.meissa-gmbh.de/api/v1/" "access_token" "...")
         masto (new Mastodon config)
         rest-endpoint "accounts/:id/statuses"
@@ -24,3 +24,30 @@
 
 (defn add-one [a]
   (+ a 1))
+
+;from yogthos / mastodon-bot
+
+(defn exit-with-error [error]
+  (js/console.error error)
+  (js/process.exit 1))
+
+(defn js->edn [data]
+  (js->clj data :keywordize-keys true))
+
+(def mastodon-config 
+  {:access_token "XXXX"
+   :account-id "2"
+   :api_url "https://social.meissa-gmbh.de/api/v1/"})
+
+(def mastodon-client (or (some-> mastodon-config clj->js Mastodon.)
+                         (exit-with-error "missing Mastodon client configuration!")))
+
+(defn get-mastodon-timeline [callback]
+  (.then (.get mastodon-client (str "accounts/" (:account-id mastodon-config) "/statuses") #js {})
+         #(let [response (-> % .-data js->edn)]
+            (if-let [error (:error response)]
+              (exit-with-error error)
+              (callback response)))))
+
+(defn init []
+  (get-mastodon-timeline pprint))
