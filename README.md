@@ -6,7 +6,7 @@ Embeds mastodon timline into a html page. Uses JS, no intermediate server requir
 
 sudo npm install -g npx
 sudo npm install -g shadow-cljs
-npm install source-map-support
+npm install source-map-support --save-dev
 npm install mastodon-api
 
 # Development
