@@ -1,8 +1,9 @@
 (ns dda.masto-embed.app
-  (:require ["mastodon-api" :as Mastodon]
-            [clojure.pprint :as pprint :refer [pprint]]
-            [cljs.core.async :refer [go]]
-            [cljs.core.async.interop :refer-macros [<p!]]))
+  (:require
+   ["mastodon-api" :as Mastodon]
+   [clojure.pprint :as pprint :refer [pprint]]
+   [cljs.core.async :refer [go]]
+   [cljs.core.async.interop :refer-macros [<p!]]))
 
 (defn get-content-seq [response]
   (map
