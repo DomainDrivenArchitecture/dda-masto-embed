@@ -5,5 +5,7 @@
   "devDependencies": {
     "shadow-cljs": "2.8.100"
   },
-  "dependencies": {}
+  "dependencies": {
+    "mastodon-api": "^1.3.0"
+  }
 }
