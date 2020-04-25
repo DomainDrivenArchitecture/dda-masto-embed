@@ -13,8 +13,26 @@
 ; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
+(ns dda.masto-embed.js-api
+  (:require
+   ["mastodon-api" :as Mastodon]
+   [clojure.pprint :as pprint :refer [pprint]]
+   [cljs.core.async :refer [go]]
+   [cljs.core.async.interop :refer-macros [<p!]]))
 
-(ns dda.masto-embed.app-test
-  (:require 
-    [cljs.test :refer (deftest is)]
-    [dda.masto-embed.app :as sut]))
+(defn get-content-seq [response]
+  (map
+   #(aget % "content")
+   (array-seq
+    (aget response "data"))))
+
+(defn luccas-fn []
+  (let [config (js-obj "api_url" "https://social.meissa-gmbh.de/api/v1/" "access_token" "...")
+        masto (new Mastodon config)
+        rest-endpoint "accounts/:id/statuses"
+        id-config (js-obj "id" "2")
+        result (go
+                 (let [response (<p! (.get masto rest-endpoint id-config))]
+                   (get-content-seq response)))]
+    (pprint result)
+    result))
