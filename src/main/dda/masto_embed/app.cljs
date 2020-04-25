@@ -18,15 +18,22 @@
    [dda.masto-embed.api :as api]
    [clojure.pprint :as pprint :refer [pprint]]))
 
-(def mastodon-config 
-  (api/create-config "2" "https://social.meissa-gmbh.de"))
+(def masto-embed "masto-embed")
+
+(defn mastodon-config-from-document []
+  (let [masto-embed (.getElementById js/document masto-embed)
+        host-url (.getAttribute masto-embed "host_url")
+        account-id (.getAttribute masto-embed "account_id")]
+    (api/create-config account-id host-url)))
 
 (defn render-to-document
   [input]
   (-> js/document
-      (.getElementById "mastodon-timeline")
+      (.getElementById masto-embed)
       (.-innerHTML)
       (set! input)))
 
 (defn init []
-  (api/get-mastodon-timeline mastodon-config render-to-document))
+  (api/get-mastodon-timeline 
+   (mastodon-config-from-document) 
+   render-to-document))
