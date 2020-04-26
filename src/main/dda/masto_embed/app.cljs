@@ -34,6 +34,6 @@
       (set! input)))
 
 (defn init []
-  (api/get-mastodon-timeline 
+  (api/get-account-statuses
    (mastodon-config-from-document) 
    render-to-document))

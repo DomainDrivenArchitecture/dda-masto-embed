@@ -44,7 +44,7 @@
   (or (some-> mastodon-config clj->js Mastodon.)
       (exit-with-error "missing Mastodon client configuration!")))
 
-(defn get-mastodon-timeline [mastodon-config callback]
+(defn get-account-statuses [mastodon-config callback]
   (.then (.get (mastodon-client mastodon-config) 
                (str "accounts/" (:account-id mastodon-config) "/statuses") 
                #js {})
@@ -52,3 +52,14 @@
             (if-let [error (:error response)]
               (exit-with-error error)
               (callback response)))))
+
+(defn get-directory [mastodon-config callback]
+  (.then (.get (mastodon-client mastodon-config)
+               (str "directory?local=true")
+               #js {})
+         #(let [response (-> % .-data js->edn)]
+            (if-let [error (:error response)]
+              (exit-with-error error)
+              (callback response)))))
+
+(def my-config (create-config "2" "https://social.meissa-gmbh.de"))
