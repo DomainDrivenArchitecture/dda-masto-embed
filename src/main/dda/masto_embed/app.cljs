@@ -20,11 +20,20 @@
 
 (def masto-embed "masto-embed")
 
-(defn mastodon-config-from-document []
-  (let [masto-embed (.getElementById js/document masto-embed)
-        host-url (.getAttribute masto-embed "host_url")
-        account-id (.getAttribute masto-embed "account_id")]
-    (api/create-config account-id host-url)))
+(defn host-url-from-document []
+  (-> js/document
+      (.getElementById masto-embed)
+      (.getAttribute "host_url")))
+
+(defn account-name-from-document []
+  (-> js/document
+      (.getElementById masto-embed)
+      (.getAttribute "account_name")))
+
+(defn account-id-from-document []
+  (-> js/document
+      (.getElementById masto-embed)
+      (.getAttribute "account_id")))
 
 (defn render-to-document
   [input]
@@ -35,5 +44,6 @@
 
 (defn init []
   (api/get-account-statuses
-   (mastodon-config-from-document) 
+   (host-url-from-document)
+   (account-id-from-document)
    render-to-document))

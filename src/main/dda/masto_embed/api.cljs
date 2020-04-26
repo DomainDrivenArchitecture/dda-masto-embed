@@ -19,19 +19,10 @@
    [clojure.spec.alpha :as s]
    [clojure.spec.test.alpha :as st]
    [orchestra.core :refer-macros [defn-spec]]
-   [clojure.pprint :as pprint :refer [pprint]]
    [cljs.core.async :refer [go]]
    [cljs.core.async.interop :refer-macros [<p!]]))
-
 (s/def ::account-id string?)
 (s/def ::host-url string?)
-
-(defn-spec create-config map?
-  [account-id ::account-id
-   host-url ::host-url]
-  {:access_token "unused"
-   :account-id account-id
-   :api_url (str host-url "/api/v1/") })
 
 (defn exit-with-error [error]
   (js/console.error error)
@@ -40,26 +31,32 @@
 (defn js->edn [data]
   (js->clj data :keywordize-keys true))
 
-(defn mastodon-client [mastodon-config]
-  (or (some-> mastodon-config clj->js Mastodon.)
-      (exit-with-error "missing Mastodon client configuration!")))
+(defn-spec mastodon-client any? 
+  [host-url ::host-url]
+  (let [mastodon-config
+        {:access_token "unused"
+         :api_url (str host-url "/api/v1/")}]
+    (some-> mastodon-config clj->js Mastodon.)))
 
-(defn get-account-statuses [mastodon-config callback]
-  (.then (.get (mastodon-client mastodon-config) 
-               (str "accounts/" (:account-id mastodon-config) "/statuses") 
+(defn-spec get-account-statuses any?
+  [host-url ::host-url
+   account-id ::account-id
+   callback fn?]
+  (.then (.get (mastodon-client host-url) 
+               (str "accounts/" account-id "/statuses") 
                #js {})
          #(let [response (-> % .-data js->edn)]
             (if-let [error (:error response)]
               (exit-with-error error)
               (callback response)))))
 
-(defn get-directory [mastodon-config callback]
-  (.then (.get (mastodon-client mastodon-config)
+(defn-spec get-directory any? 
+  [host-url ::host-url
+   callback fn?]
+  (.then (.get (mastodon-client host-url)
                (str "directory?local=true")
                #js {})
          #(let [response (-> % .-data js->edn)]
             (if-let [error (:error response)]
               (exit-with-error error)
               (callback response)))))
-
-(def my-config (create-config "2" "https://social.meissa-gmbh.de"))
