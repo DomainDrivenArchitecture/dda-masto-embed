@@ -21,6 +21,7 @@
    [orchestra.core :refer-macros [defn-spec]]
    [cljs.core.async :refer [go]]
    [cljs.core.async.interop :refer-macros [<p!]]))
+
 (s/def ::account-id string?)
 (s/def ::host-url string?)
 
