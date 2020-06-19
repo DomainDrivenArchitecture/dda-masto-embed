@@ -18,10 +18,7 @@
    ["mastodon-api" :as Mastodon]
    [dda.masto-embed.infra :as infra]
    [clojure.spec.alpha :as s]
-   [clojure.spec.test.alpha :as st]
-   [orchestra.core :refer-macros [defn-spec]]
-   [cljs.core.async :refer [go]]
-   [cljs.core.async.interop :refer-macros [<p!]]))
+   [orchestra.core :refer-macros [defn-spec]]))
 
 (s/def ::account-id string?)
 (s/def ::host-url string?)
