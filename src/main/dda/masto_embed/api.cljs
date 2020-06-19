@@ -58,6 +58,13 @@
                (str "directory?local=true")
                #js {})
          #(let [response (-> % .-data js->edn)]
-            (if-let [error (:error response)]
-              (exit-with-error error)
-              (callback response)))))
+            (callback response))))
+
+(defn-spec get-directory2 any?
+  [host-url ::host-url]
+  (go (let [result (<p! (.get (mastodon-client host-url)
+                              (str "directory?local=true")
+                              #js {}))]
+        (-> result 
+            .-data 
+            js->edn))))

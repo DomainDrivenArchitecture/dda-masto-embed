@@ -16,6 +16,8 @@
 (ns dda.masto-embed.app
   (:require
    [dda.masto-embed.api :as api]
+   [cljs.core.async :refer [go close! put! take! timeout chan <! >!]]
+   [cljs.core.async.interop :refer-macros [<p!]]
    [clojure.pprint :as pprint :refer [pprint]]))
 
 (def masto-embed "masto-embed")
@@ -24,8 +26,8 @@
   (-> js/document
       (.getElementById masto-embed)
       (.getAttribute "host_url")))
-
 (defn account-name-from-document []
+
   (-> js/document
       (.getElementById masto-embed)
       (.getAttribute "account_name")))
@@ -42,8 +44,40 @@
       (.-innerHTML)
       (set! input)))
 
+(defn debug [elem]
+  (print elem)
+  elem)
+
+
+(defn find-account-id [host-url account-name]
+  (let [in (chan)
+        out (chan)]
+    (go
+      (->>
+       (<! in)
+       (filter #(= account-name (:acct %)))
+       (map :id)
+       first
+       debug
+       (>! out))
+      (do (close! in)
+          (close! out))
+      )
+    ;(api/get-directory host-url #(go (>! in %)))
+    out))
+
 (defn init []
-  (api/get-account-statuses
-   (host-url-from-document)
-   (account-id-from-document)
-   render-to-document))
+  (go
+    (let [account-id (or 
+                      (account-id-from-document)
+                      (<! (find-account-id "https://social.meissa-gmbh.de" "team")))]
+      (print account-id)
+      (api/get-account-statuses
+       (host-url-from-document)
+       account-id
+       render-to-document))))
+
+(go
+  (let
+   [result (<p! (api/get-directory "https://social.meissa-gmbh.de"))]
+    result))
