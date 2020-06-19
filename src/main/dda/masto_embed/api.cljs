@@ -51,7 +51,7 @@
               (exit-with-error error)
               (callback response)))))
 
-(defn-spec get-directory any? 
+(defn-spec get-directory-old any? 
   [host-url ::host-url
    callback fn?]
   (.then (.get (mastodon-client host-url)
@@ -60,7 +60,7 @@
          #(let [response (-> % .-data js->edn)]
             (callback response))))
 
-(defn-spec get-directory2 any?
+(defn-spec get-directory any?
   [host-url ::host-url]
   (go (let [result (<p! (.get (mastodon-client host-url)
                               (str "directory?local=true")

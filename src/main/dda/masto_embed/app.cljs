@@ -77,7 +77,8 @@
        account-id
        render-to-document))))
 
-(go
-  (let
-   [result (<p! (api/get-directory "https://social.meissa-gmbh.de"))]
-    result))
+(defn main []
+  (go
+    (let [account-id (<! (find-account-id "https://social.meissa-gmbh.de" "team"))]
+      (print account-id)
+      )))
