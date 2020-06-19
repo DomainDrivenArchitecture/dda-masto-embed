@@ -13,38 +13,18 @@
 ; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
-(ns dda.masto-embed.api
+(ns dda.masto-embed.infra
   (:require
-   ["mastodon-api" :as Mastodon]
-   [dda.masto-embed.infra :as infra]
-   [clojure.spec.alpha :as s]
-   [clojure.spec.test.alpha :as st]
-   [orchestra.core :refer-macros [defn-spec]]
    [cljs.core.async :refer [go]]
    [cljs.core.async.interop :refer-macros [<p!]]))
 
-(s/def ::account-id string?)
-(s/def ::host-url string?)
+(defn exit-with-error [error]
+  (js/console.error error)
+  (js/process.exit 1))
 
-(defn masto->edn [response]
-  (-> response .-data infra/js->edn))
+(defn js->edn [data]
+  (js->clj data :keywordize-keys true))
 
-(defn-spec mastodon-client any? 
-  [host-url ::host-url]
-  (let [mastodon-config
-        {:access_token "unused"
-         :api_url (str host-url "/api/v1/")}]
-    (some-> mastodon-config clj->js Mastodon.)))
-
-(defn-spec get-account-statuses any?
-  [host-url ::host-url
-   account-id ::account-id]
-  (.get (mastodon-client host-url)
-        (str "accounts/" account-id "/statuses")
-        #js {}))
-
-(defn-spec get-directory any?
-  [host-url ::host-url]
-  (.get (mastodon-client host-url)
-        (str "directory?local=true")
-        #js {}))
+(defn debug [elem]
+  (print elem)
+  elem)

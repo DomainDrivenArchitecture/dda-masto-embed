@@ -16,6 +16,7 @@
 (ns dda.masto-embed.app
   (:require
    [dda.masto-embed.api :as api]
+   [dda.masto-embed.infra :as infra]
    [cljs.core.async :refer [go close! put! take! timeout chan <! >!]]
    [cljs.core.async.interop :refer-macros [<p!]]
    [clojure.pprint :as pprint :refer [pprint]]))
@@ -26,8 +27,8 @@
   (-> js/document
       (.getElementById masto-embed)
       (.getAttribute "host_url")))
-(defn account-name-from-document []
 
+(defn account-name-from-document []
   (-> js/document
       (.getElementById masto-embed)
       (.getAttribute "account_name")))
@@ -44,41 +45,34 @@
       (.-innerHTML)
       (set! input)))
 
-(defn debug [elem]
-  (print elem)
-  elem)
-
-
 (defn find-account-id [host-url account-name]
-  (let [in (chan)
-        out (chan)]
+  (let [out (chan)]
     (go
-      (->>
-       (<! in)
-       (filter #(= account-name (:acct %)))
-       (map :id)
-       first
-       debug
-       (>! out))
-      (do (close! in)
-          (close! out))
-      )
-    ;(api/get-directory host-url #(go (>! in %)))
+      (>! out 
+          (->>
+           (<p! (api/get-directory host-url))
+           api/masto->edn
+           (filter #(= account-name (:acct %)))
+           (map :id)
+           first
+           ;infra/debug
+           )))
     out))
 
 (defn init []
   (go
-    (let [account-id (or 
+    (let [host-url (host-url-from-document)
+          account-name (account-name-from-document)
+          account-id (or 
                       (account-id-from-document)
-                      (<! (find-account-id "https://social.meissa-gmbh.de" "team")))]
+                      (<! (find-account-id host-url account-name)))
+          status (-> 
+                  (<p! (api/get-account-statuses host-url account-id))
+                  api/masto->edn)
+          ]
+      (print host-url)
+      (print account-name)
       (print account-id)
-      (api/get-account-statuses
-       (host-url-from-document)
-       account-id
-       render-to-document))))
-
-(defn main []
-  (go
-    (let [account-id (<! (find-account-id "https://social.meissa-gmbh.de" "team"))]
-      (print account-id)
+      (print status)
+      (render-to-document status)
       )))
