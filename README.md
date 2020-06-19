@@ -15,7 +15,16 @@ npm install mastodon-api
 # Development
 
 ```
-shadow-cljs node-repl
 shadow-cljs watch frontend
+```
+
+open browser at http://localhost:8080
+
+Connect your repl for :frontend
+
+
+# run the tests
+
+```
 shadow-cljs compile test
 ```
