@@ -54,9 +54,7 @@
            api/masto->edn
            (filter #(= account-name (:acct %)))
            (map :id)
-           first
-           ;infra/debug
-           )))
+           first)))
     out))
 
 (defn init []
