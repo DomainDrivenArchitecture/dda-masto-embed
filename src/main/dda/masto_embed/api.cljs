@@ -23,8 +23,18 @@
 (s/def ::account-id string?)
 (s/def ::host-url string?)
 
-(defn masto->edn [response]
+(defn mastojs->edn [response]
   (-> response .-data infra/js->edn))
+
+(defn masto->html [statuus]
+  [:ul 
+   (map (fn [status] [:li 
+                      [:h2
+                       [:a {:href (get-in status [:account :url])}
+                        (:created_at status)]]
+                      (:content status)
+                      (:card status)]) statuus)])
+  
 
 (defn-spec mastodon-client any? 
   [host-url ::host-url]

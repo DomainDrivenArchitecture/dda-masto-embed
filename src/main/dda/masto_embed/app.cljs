@@ -19,7 +19,7 @@
    [dda.masto-embed.infra :as infra]
    [cljs.core.async :refer [go close! put! take! timeout chan <! >!]]
    [cljs.core.async.interop :refer-macros [<p!]]
-   [clojure.pprint :as pprint :refer [pprint]]))
+   [hiccups.runtime :refer [render-html]]))
 
 (def masto-embed "masto-embed")
 
@@ -51,7 +51,7 @@
       (>! out 
           (->>
            (<p! (api/get-directory host-url))
-           api/masto->edn
+           api/mastojs->edn
            (filter #(= account-name (:acct %)))
            (map :id)
            first)))
@@ -64,13 +64,17 @@
           account-id (or 
                       (account-id-from-document)
                       (<! (find-account-id host-url account-name)))
-          status (-> 
-                  (<p! (api/get-account-statuses host-url account-id))
-                  api/masto->edn)
+          statuus (->
+                   (<p! (api/get-account-statuses host-url account-id))
+                   api/mastojs->edn)
           ]
       (print host-url)
       (print account-name)
       (print account-id)
-      (print status)
-      (render-to-document status)
+      (->> statuus
+           (take 4)
+           (api/masto->html)
+           (render-html)
+           (infra/debug)
+           (render-to-document))
       )))

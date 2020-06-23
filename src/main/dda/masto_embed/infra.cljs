@@ -16,7 +16,8 @@
 (ns dda.masto-embed.infra
   (:require
    [cljs.core.async :refer [go]]
-   [cljs.core.async.interop :refer-macros [<p!]]))
+   [cljs.core.async.interop :refer-macros [<p!]]
+   [clojure.pprint :as pprint :refer [pprint]]))
 
 (defn exit-with-error [error]
   (js/console.error error)
@@ -26,5 +27,5 @@
   (js->clj data :keywordize-keys true))
 
 (defn debug [elem]
-  (print elem)
+  (pprint elem)
   elem)
