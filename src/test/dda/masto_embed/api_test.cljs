@@ -19,7 +19,7 @@
    [cljs.test :refer (deftest is)]
    [dda.masto-embed.api :as sut]))
 
-(def statuus [{:mentions []
+(def statuses [{:mentions []
                :emojis []
                :tags []
                :reblog
@@ -153,11 +153,44 @@
                :created_at "2020-05-17T10:12:10.403Z"
                :spoiler_text ""}])
 
-(deftest test-mastodon-2-html 
+(deftest test-mastodon->html 
   (is (= [:ul 
            '([:li
               [:h2 [:a {:href "https://social.meissa-gmbh.de/@team"}
-                    "2020-05-17T10:12:10.403Z"]]
+                    "2020-05-17" "10:12:10"]]
               "<p>We&apos;ve a new asciicast ... </p>"
-              [:p ]])]
-         (sut/masto->html statuus))))
+              nil])]
+         (sut/masto->html statuses))))
+
+
+
+(deftest empty-card-should-produce-empty-result
+  (is (= nil
+         (sut/mastocard->html nil))))
+
+(def link-card {:description "A comprehensive free SSL test for your public web servers.", 
+                :author_url "", :width 0, :type "link", :embed_url "", 
+                :title "SSL Server Test (Powered by Qualys SSL Labs)", 
+                :provider_name "", :url "https://www.ssllabs.com/ssltest/", 
+                :author_name "", :image nil, :provider_url "", :height 0, :html ""})
+
+(deftest link-card-should-show-desc-and-link
+  (is (= [:div {:class "card", :url "https://www.ssllabs.com/ssltest/"}
+          nil
+          [:h1 "SSL Server Test (Powered by Qualys SSL Labs)"]
+          [:p "A comprehensive free SSL test for your public web servers."]]
+         (sut/mastocard->html link-card))))
+
+(def link-card-with-image 
+  {:description "Cryogen's core. Contribute to DomainDrivenArchitecture/cryogen-core development by creating an account on GitHub.", :author_url "", :width 400, :type "link", :embed_url "", 
+   :title "DomainDrivenArchitecture/cryogen-core", :provider_name "", 
+   :url "https://github.com/DomainDrivenArchitecture/cryogen-core", :author_name "", 
+   :image "https://cf.mastohost.com/v1/AUTH_91eb37814936490c95da7b85993cc2ff/socialmeissagmbhde/cache/preview_cards/images/000/017/635/original/5634071238f1f91f.png", 
+   :provider_url "", :height 400, :html ""})
+
+(deftest link-card-should-show-image-and-desc-and-link
+  (is (= [:div {:class "card", :url "https://github.com/DomainDrivenArchitecture/cryogen-core"} 
+          [:img {:src "https://cf.mastohost.com/v1/AUTH_91eb37814936490c95da7b85993cc2ff/socialmeissagmbhde/cache/preview_cards/images/000/017/635/original/5634071238f1f91f.png"}] 
+          [:h1 "DomainDrivenArchitecture/cryogen-core"] 
+          [:p "Cryogen's core. Contribute to DomainDrivenArchitecture/cryogen-core development by creating an account on GitHub."]]
+         (sut/mastocard->html link-card-with-image))))

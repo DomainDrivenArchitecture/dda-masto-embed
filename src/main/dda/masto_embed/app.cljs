@@ -72,7 +72,7 @@
       (print account-name)
       (print account-id)
       (->> statuus
-           (take 4)
+           (take 14)
            (api/masto->html)
            (render-html)
            (infra/debug)

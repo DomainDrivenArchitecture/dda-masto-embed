@@ -17,6 +17,7 @@
   (:require
    ["mastodon-api" :as Mastodon]
    [dda.masto-embed.infra :as infra]
+   [cljs-time.format :as t]
    [clojure.spec.alpha :as s]
    [orchestra.core :refer-macros [defn-spec]]))
 
@@ -26,14 +27,28 @@
 (defn mastojs->edn [response]
   (-> response .-data infra/js->edn))
 
-(defn masto->html [statuus]
+(defn mastocard->html [card]
+  (when (some? card)
+    (let [{:keys [title description image url]} card]
+      [:div {:class "card" :url url}
+       (when (some? image)
+         [:img {:src image}])
+       [:h1 title]
+       [:p description]])))
+
+(defn masto->html [statuses]
   [:ul 
-   (map (fn [status] [:li 
-                      [:h2
-                       [:a {:href (get-in status [:account :url])}
-                        (:created_at status)]]
-                      (:content status)
-                      (:card status)]) statuus)])
+   (map (fn [status] 
+          (let [{:keys [created_at card]} status
+                date (t/parse created_at)]
+            [:li
+             [:h2
+              [:a {:href (get-in status [:account :url])}
+               (t/unparse (t/formatters :date) date) 
+               (t/unparse (t/formatters :hour-minute-second) date)]]
+             (:content status)
+             (mastocard->html card)])) 
+        statuses)])
   
 
 (defn-spec mastodon-client any? 
