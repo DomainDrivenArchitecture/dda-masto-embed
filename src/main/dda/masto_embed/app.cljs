@@ -53,6 +53,7 @@
            (<p! (api/get-directory host-url))
            api/mastojs->edn
            (filter #(= account-name (:acct %)))
+           (infra/debug)
            (map :id)
            first)))
     out))
@@ -68,13 +69,9 @@
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)
           ]
-      (print host-url)
-      (print account-name)
-      (print account-id)
       (->> statuus
-           (take 14)
+           (take 4)
            (api/masto->html)
            (render-html)
-           (infra/debug)
            (render-to-document))
       )))
