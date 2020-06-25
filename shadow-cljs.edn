@@ -12,9 +12,10 @@
  :dev-http {8080 "public"}
  :builds
  {:test {:target    :node-test
-         :output-to "out/node-tests.js"
+         :output-to "target/node-tests.js"
          :autorun   true}
   :frontend {:target :browser
+             :module-hash-names true
              :modules {:main {:init-fn dda.masto-embed.app/init}}}}}
 
 
