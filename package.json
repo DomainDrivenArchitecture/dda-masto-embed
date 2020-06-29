@@ -1,7 +1,7 @@
 {
   "name": "dda-masto-embed",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "devDependencies": {
     "shadow-cljs": "^2.8.104",
     "source-map-support": "^0.5.19"
