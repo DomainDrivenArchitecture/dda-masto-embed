@@ -2,7 +2,7 @@
   "name": "dda-masto-embed",
   "description": "Renders mastodon statuses to a website using just JS, no additional server needed.",
   "author": "meissa GmbH",
-  "version": "0.0.3",
+  "version": "0.0.4-dev-0",
   "homepage": "https://github.com/DomainDrivenArchitecture/dda-masto-embed",
   "repository": "https://github.com/DomainDrivenArchitecture/dda-masto-embed",
   "license": "APACHE2.0",
