@@ -1,6 +1,11 @@
 {
   "name": "dda-masto-embed",
-  "version": "0.0.1",
+  "description": "Renders mastodon statuses to a website using just JS, no additional server needed.",
+  "author": "meissa GmbH",
+  "version": "0.0.2",
+  "homepage": "https://github.com/DomainDrivenArchitecture/dda-masto-embed",
+  "repository": "https://github.com/DomainDrivenArchitecture/dda-masto-embed",
+  "license": "APACHE2.0",
   "private": false,
   "devDependencies": {
     "shadow-cljs": "^2.8.104",
@@ -11,5 +16,12 @@
     "eslint": ">=4.18.2",
     "lodash.template": ">=4.5.0",
     "mastodon-api": "^1.3.0"
-  }
+  },
+  "main": "mastodon-bot.js",
+  "keywords": [
+    "cljs",
+    "mastodon",
+    "status",
+    "bootstrap"
+  ]
 }
