@@ -33,7 +33,7 @@
       [:div {:class "card" :url url}
        (when (some? image)
          [:img {:src image}])
-       [:h1 title]
+       [:h3 title]
        [:p description]])))
 
 (defn masto->html [statuses]
