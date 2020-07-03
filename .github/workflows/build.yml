@@ -1,5 +1,5 @@
 name: build-it
-  push
+on: push
 
 jobs:
   build-it:
