@@ -1,11 +1,9 @@
-name: release prod
-on:
+name: build-it
   push:
-    tags: '[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  release:
-    name: release
+  build-it:
+    name: build-it
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,12 +38,14 @@ jobs:
         shadow-cljs compile test
 
     - name: build em
+      if: ${{ github.branch == 'master' }}
       run: |
         shadow-cljs release lib
         sha256sum target/lib.js > target/dda-masto-embedd.js.sha256
         sha512sum target/lib.js > target/dda-masto-embedd.js.sha512
 
     - name: Create Release
+      if: ${{ github.tag == '[0-9]+.[0-9]+.[0-9]+' }}
       id: create_release
       uses: actions/create-release@v1
       env:
@@ -57,6 +57,7 @@ jobs:
         prerelease: false
 
     - name: Upload masto-embedd.js
+      if: ${{ github.tag == '[0-9]+.[0-9]+.[0-9]+' }}
       id: upload-masto-embedd-js
       uses: actions/upload-release-asset@v1
       env:
@@ -68,6 +69,7 @@ jobs:
         asset_content_type: application/json
 
     - name: Upload masto-embedd.js.sha256
+      if: ${{ github.tag == '[0-9]+.[0-9]+.[0-9]+' }}
       id: upload-masto-embedd-js-sha256
       uses: actions/upload-release-asset@v1
       env:
@@ -79,6 +81,7 @@ jobs:
         asset_content_type: application/json
 
     - name: Upload masto-embedd.js.sha512
+      if: ${{ github.tag == '[0-9]+.[0-9]+.[0-9]+' }}
       id: upload-masto-embedd-js-sha512
       uses: actions/upload-release-asset@v1
       env:
@@ -90,6 +93,7 @@ jobs:
         asset_content_type: application/json
 
     - name: upload to npm
+      if: ${{ github.branch == 'master' }}
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
@@ -99,5 +103,6 @@ jobs:
         cp target/dda-masto-embedd.js.sha512 target/npm-build/
         cp package.json target/npm-build/
         cp README.md target/npm-build/
+        cp LICENSE target/npm-build/
         tar -cz -C target/npm-build -f target/npm-build.tgz .
         npm publish ./target/npm-build.tgz --access public
