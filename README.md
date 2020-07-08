@@ -58,11 +58,12 @@ shadow-cljs compile test
 ```
 #adjust version
 vi package.json
+git commit -am 'releasing'
 git tag -am 'releasing' <version>
 git push --follow-tags
 
 # Bump version
-vi shadow-cljs.edn
+vi package.json
 
 git commit -am "version bump" && git push
 ```

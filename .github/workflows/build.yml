@@ -45,8 +45,8 @@ jobs:
     - name: build em
       run: |
         shadow-cljs release frontend
-        sha256sum public/main.js > target/dda-masto-embedd.js.sha256
-        sha512sum public/main.js > target/dda-masto-embedd.js.sha512
+        sha256sum public/js/main.js > target/dda-masto-embedd.js.sha256
+        sha512sum public/js/main.js > target/dda-masto-embedd.js.sha512
 
     - name: Create Release
       id: create_release
@@ -66,7 +66,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: public/main.js
+        asset_path: public/js/main.js
         asset_name: dda-masto-embed.js
         asset_content_type: application/json
 
@@ -97,7 +97,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         mkdir -p target/npm-build        
-        cp public/main.js target/npm-build/dda-masto-embedd.js
+        cp public/js/main.js target/npm-build/dda-masto-embedd.js
         cp target/dda-masto-embedd.js.sha256 target/npm-build/
         cp target/dda-masto-embedd.js.sha512 target/npm-build/
         cp package.json target/npm-build/
