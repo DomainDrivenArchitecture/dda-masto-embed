@@ -15,11 +15,13 @@
 ; limitations under the License.
 (ns dda.masto-embed.app
   (:require
-   [dda.masto-embed.api :as api]
-   [dda.masto-embed.infra :as infra]
    [cljs.core.async :refer [go close! put! take! timeout chan <! >!]]
    [cljs.core.async.interop :refer-macros [<p!]]
-   [hiccups.runtime :refer [render-html]]))
+   [hiccups.runtime :refer [render-html]]
+   [dda.masto-embed.api :as api]
+   [dda.masto-embed.infra :as infra]
+   [dda.masto-embed.render-bootstrap :as rb]
+   ))
 
 (def masto-embed "masto-embed")
 
@@ -71,7 +73,7 @@
           ]
       (->> statuus
            (take 4)
-           (api/masto->html)
+           (rb/masto->html)
            (render-html)
            (render-to-document))
       )))
