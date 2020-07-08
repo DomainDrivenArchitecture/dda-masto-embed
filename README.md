@@ -3,6 +3,7 @@
 
 [<img src="https://meissa-gmbh.de/img/community/Mastodon_Logotype.svg" width=20 alt="team@social.meissa-gmbh.de"> team@social.meissa-gmbh.de](https://social.meissa-gmbh.de/@team) | [Website & Blog](https://domaindrivenarchitecture.org)
 
+## in brief
 Embeds mastodon timline into a html page. 
 * Uses JS, **no intermediate server** required,
 * example at [meissa-gmbh.de](https://meissa-gmbh.de/pages/news/)
@@ -12,6 +13,10 @@ Embeds mastodon timline into a html page.
   * [dda-masto-embed.js.sha512](https://domaindrivenarchitecture.org/downloads/downloads/dda-masto-embed.js.sha512)
 * It is **OpenSource** - published under the Apache License, Version 2.0
 
+## how it looks
+![masto-embed-example.png](doc/masto-embed-example.png)
+
+## how to try it out
 In order to try it, just create a html like 
 ```
 <!doctype html>
@@ -19,6 +24,9 @@ In order to try it, just create a html like
   <head>
     <meta charset="utf-8" />
     <title>masto-embed</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
+          crossorigin="anonymous">
   </head>
   <body>
     <div id="masto-embed" 
@@ -31,10 +39,7 @@ In order to try it, just create a html like
 </html>
 ```
 
-and you will get  sth like:
-![masto-embed-example.png](doc/masto-embed-example.png)
-
-Styling is up to you atmo, help is welcome :-)
+We use bootstrap for rough styling. More styling is up to you atmo, help is welcome :-)
 
 
 ## dev setup
