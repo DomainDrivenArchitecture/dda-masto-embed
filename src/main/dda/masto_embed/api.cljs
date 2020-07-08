@@ -32,22 +32,24 @@
     (let [{:keys [title description image url]} card]
       [:div {:class "card" :url url}
        (when (some? image)
-         [:img {:src image}])
-       [:h3 title]
-       [:p description]])))
+         [:img {:class "card-img-top" :src image}])
+       [:h3 {:class "card-title"} title]
+       [:p {:class "card-body"} description]])))
 
 (defn masto->html [statuses]
-  [:ul 
+  [:ul {:class "list-group"}
    (map (fn [status] 
           (let [{:keys [created_at card]} status
                 date (t/parse created_at)]
-            [:li
-             [:h2
-              [:a {:href (get-in status [:account :url])}
-               (t/unparse (t/formatters :date) date) 
-               (t/unparse (t/formatters :hour-minute-second) date)]]
-             (:content status)
-             (mastocard->html card)])) 
+            [:li {:class "list-group-item, card"}
+             [:div {:class "card-body"}
+              [:h2 {:class "card-title"}
+               [:a {:href (get-in status [:account :url])}
+                (t/unparse (t/formatters :date) date) " "
+                (t/unparse (t/formatters :hour-minute-second) date)]]
+              [:p {:class "card-text"}
+               (:content status)
+               (mastocard->html card)]]])) 
         statuses)])
   
 
