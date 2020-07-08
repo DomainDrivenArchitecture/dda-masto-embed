@@ -57,8 +57,7 @@ shadow-cljs compile test
 ### prod release
 ```
 #adjust version
-vi shadow-cljs.edn
-
+vi package.json
 git commit -am 'releasing'
 git tag -am 'releasing' <version>
 git push --follow-tags
