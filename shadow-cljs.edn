@@ -18,7 +18,7 @@
         :exports {:init dda.masto-embed.app/init}
         :release {:compiler-options {:optimizations :simple}}}
   :frontend {:target :browser
-             :module-hash-names true
-             :modules {:main {:init-fn dda.masto-embed.app/init}}}}}
+             :modules {:main {:init-fn dda.masto-embed.app/init}}
+             :release {:compiler-options {:optimizations :simple}}}}}
 
 
