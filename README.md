@@ -1,4 +1,11 @@
 # dda-masto-embed
+![build](https://github.com/DomainDrivenArchitecture/dda-masto-embed/workflows/build-it/badge.svg)
+
+[<img src="https://meissa-gmbh.de/img/community/Mastodon_Logotype.svg" width=20 alt="team@social.meissa-gmbh.de"> team@social.meissa-gmbh.de](https://social.meissa-gmbh.de/@team) | [Website & Blog](https://domaindrivenarchitecture.org)
+
+## Leiningen
+[![Clojars Project](http://clojars.org/dda/cryogen-bootstrap/latest-version.svg)](http://clojars.org/dda/cryogen-bootstrap)
+
 Embeds mastodon timline into a html page. 
 * Uses JS, **no intermediate server** required,
 * example at [meissa-gmbh.de](https://meissa-gmbh.de/pages/news/)
