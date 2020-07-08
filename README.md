@@ -1,6 +1,7 @@
 # dda-masto-embed
 Embeds mastodon timline into a html page. 
 * Uses JS, **no intermediate server** required,
+* example at [meissa-gmbh.de](https://meissa-gmbh.de/pages/news/)
 * Download latest version at:
   * [dda-masto-embed.js](https://domaindrivenarchitecture.org/downloads/downloads/dda-masto-embed.js)
   * [dda-masto-embed.js.sha256](https://domaindrivenarchitecture.org/downloads/downloads/dda-masto-embed.js.sha256)
@@ -64,6 +65,5 @@ git push --follow-tags
 
 # Bump version
 vi package.json
-
 git commit -am "version bump" && git push
 ```
