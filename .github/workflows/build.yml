@@ -43,8 +43,8 @@ jobs:
     - name: build em
       run: |
         shadow-cljs release frontend
-        sha256sum public/js/main.js > target/dda-masto-embedd.js.sha256
-        sha512sum public/js/main.js > target/dda-masto-embedd.js.sha512
+        sha256sum public/js/main.js > target/dda-masto-embed.js.sha256
+        sha512sum public/js/main.js > target/dda-masto-embed.js.sha512
 
     - name: Create Release
       id: create_release
@@ -57,8 +57,8 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload masto-embedd.js
-      id: upload-masto-embedd-js
+    - name: Upload masto-embed.js
+      id: upload-masto-embed-js
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,38 +68,38 @@ jobs:
         asset_name: dda-masto-embed.js
         asset_content_type: application/json
 
-    - name: Upload masto-embedd.js.sha256
-      id: upload-masto-embedd-js-sha256
+    - name: Upload masto-embed.js.sha256
+      id: upload-masto-embed-js-sha256
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/dda-masto-embedd.js.sha256
-        asset_name: dda-masto-embedd.js.sha256
+        asset_path: target/dda-masto-embed.js.sha256
+        asset_name: dda-masto-embed.js.sha256
         asset_content_type: application/json
 
-    - name: Upload masto-embedd.js.sha512
-      id: upload-masto-embedd-js-sha512
+    - name: Upload masto-embed.js.sha512
+      id: upload-masto-embed-js-sha512
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/dda-masto-embedd.js.sha512
-        asset_name: dda-masto-embedd.js.sha512
+        asset_path: target/dda-masto-embed.js.sha512
+        asset_name: dda-masto-embed.js.sha512
         asset_content_type: application/json
 
     - name: upload to npm
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
-        mkdir -p target/npm-build        
-        cp public/js/main.js target/npm-build/dda-masto-embedd/dda-masto-embedd.js
-        cp target/dda-masto-embedd.js.sha256 target/npm-build/dda-masto-embedd/
-        cp target/dda-masto-embedd.js.sha512 target/npm-build/dda-masto-embedd/
-        cp package.json target/npm-build/dda-masto-embedd/
-        cp README.md target/npm-build/dda-masto-embedd/
-        cp -r doc target/npm-build/dda-masto-embedd/
-        cp LICENSE target/npm-build/dda-masto-embedd/
+        mkdir -p target/npm-build/dda-masto-embed     
+        cp public/js/main.js target/npm-build/dda-masto-embed/dda-masto-embed.js
+        cp target/dda-masto-embed.js.sha256 target/npm-build/dda-masto-embed/
+        cp target/dda-masto-embed.js.sha512 target/npm-build/dda-masto-embed/
+        cp package.json target/npm-build/dda-masto-embed/
+        cp README.md target/npm-build/dda-masto-embed/
+        cp -r doc target/npm-build/dda-masto-embed/
+        cp LICENSE target/npm-build/dda-masto-embed/
         npm publish target/npm-build --access public
