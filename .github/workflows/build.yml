@@ -39,8 +39,6 @@ jobs:
         npm install
         npm install -g --save-dev shadow-cljs
         shadow-cljs compile test
-        echo ${{ github.branch }}
-        echo ${{ github.branch == 'master' }}
 
     - name: build em
       run: |
