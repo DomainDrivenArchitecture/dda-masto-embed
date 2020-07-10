@@ -45,6 +45,7 @@ jobs:
         shadow-cljs release frontend
         sha256sum public/js/main.js > target/dda-masto-embed.js.sha256
         sha512sum public/js/main.js > target/dda-masto-embed.js.sha512
+        shadow-cljs run shadow.cljs.build-report frontend target/build-report.html
 
     - name: Create Release
       id: create_release
@@ -66,7 +67,7 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: public/js/main.js
         asset_name: dda-masto-embed.js
-        asset_content_type: application/json
+        asset_content_type: application/javascript
 
     - name: Upload masto-embed.js.sha256
       id: upload-masto-embed-js-sha256
@@ -77,7 +78,7 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: target/dda-masto-embed.js.sha256
         asset_name: dda-masto-embed.js.sha256
-        asset_content_type: application/json
+        asset_content_type: text/plain
 
     - name: Upload masto-embed.js.sha512
       id: upload-masto-embed-js-sha512
@@ -88,7 +89,18 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: target/dda-masto-embed.js.sha512
         asset_name: dda-masto-embed.js.sha512
-        asset_content_type: application/json
+        asset_content_type: text/plain
+
+    - name: Upload build report
+      id: report.html
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: target/build-report.html
+        asset_name: build-report.html
+        asset_content_type: text/html
 
     - name: upload to npm
       env:

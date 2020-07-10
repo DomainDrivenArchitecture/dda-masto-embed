@@ -19,6 +19,6 @@
         :release {:compiler-options {:optimizations :simple}}}
   :frontend {:target :browser
              :modules {:main {:init-fn dda.masto-embed.app/init}}
-             :release {:compiler-options {:optimizations :simple}}}}}
+             :release {}}}}
 
 

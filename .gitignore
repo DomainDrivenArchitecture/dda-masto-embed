@@ -16,3 +16,4 @@ pom.xml.asc
 node_modules/
 /public/js
 /out
+package-lock.json
