@@ -94,12 +94,12 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
-        mkdir -p target/npm-build/dda-masto-embed     
-        cp public/js/main.js target/npm-build/dda-masto-embed/dda-masto-embed.js
-        cp target/dda-masto-embed.js.sha256 target/npm-build/dda-masto-embed/
-        cp target/dda-masto-embed.js.sha512 target/npm-build/dda-masto-embed/
-        cp package.json target/npm-build/dda-masto-embed/
-        cp README.md target/npm-build/dda-masto-embed/
-        cp -r doc target/npm-build/dda-masto-embed/
-        cp LICENSE target/npm-build/dda-masto-embed/
+        mkdir -p target/npm-build/
+        cp public/js/main.js target/npm-build/dda-masto-embed.js
+        cp target/dda-masto-embed.js.sha256 target/npm-build/
+        cp target/dda-masto-embed.js.sha512 target/npm-build/
+        cp package.json target/npm-build/
+        cp README.md target/npm-build/
+        cp -r doc target/npm-build/
+        cp LICENSE target/npm-build/
         npm publish target/npm-build --access public
