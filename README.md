@@ -4,7 +4,7 @@
 [<img src="https://meissa-gmbh.de/img/community/Mastodon_Logotype.svg" width=20 alt="team@social.meissa-gmbh.de"> team@social.meissa-gmbh.de](https://social.meissa-gmbh.de/@team) | [Website & Blog](https://domaindrivenarchitecture.org)
 
 ## in brief
-Embeds mastodon timline into a html page. 
+Embeds mastodon timeline into a html page. 
 * Uses JS, **no intermediate server** required,
 * example at [meissa-gmbh.de](https://meissa-gmbh.de/pages/news/)
 * Download latest version at:
@@ -39,7 +39,7 @@ In order to try it, just create a html like
 </html>
 ```
 
-We use bootstrap for rough styling. More styling is up to you atmo, help is welcome :-)
+We use bootstrap for rough styling. More styling is up to you at the moment, help is welcome :-)
 
 
 ## dev setup
