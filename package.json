@@ -16,7 +16,7 @@
   "dependencies": {
     "mastodon-api": "^1.3.0"
   },
-  "main": "mastodon-bot.js",
+  "main": "dda-masto-embed.js",
   "keywords": [
     "cljs",
     "mastodon",
