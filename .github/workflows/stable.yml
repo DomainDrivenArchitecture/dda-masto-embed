@@ -1,12 +1,12 @@
-name: build-it
+name: stable
 on:
   push:
     tags: 
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  build-it:
-    name: build-it
+  stable:
+    name: stable
     runs-on: ubuntu-latest
     strategy:
       matrix:
