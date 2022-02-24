@@ -41,6 +41,16 @@
         (str "accounts/" account-id "/statuses")
         #js {}))
 
+; https://mastodon.example/api/v1/statuses/:id/context
+; for parent and child statuses
+; "descendants"
+(defn get-replies
+  [host-url
+   status-id]
+  (.get (mastodon-client host-url)
+        (str "statuses/" status-id "/context")
+        #js {}))
+
 (defn-spec get-directory any?
   [host-url ::host-url]
   (.get (mastodon-client host-url)
