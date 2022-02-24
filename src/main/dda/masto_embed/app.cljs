@@ -25,20 +25,19 @@
 
 (def masto-embed "masto-embed")
 
-(defn host-url-from-document []
+(defn element-from-document-by-name [name]
   (-> js/document
       (.getElementById masto-embed)
-      (.getAttribute "host_url")))
+      (.getAttribute name)))
+
+(defn host-url-from-document []
+  (element-from-document-by-name "host_url"))
 
 (defn account-name-from-document []
-  (-> js/document
-      (.getElementById masto-embed)
-      (.getAttribute "account_name")))
+  (element-from-document-by-name "account_name"))
 
 (defn account-id-from-document []
-  (-> js/document
-      (.getElementById masto-embed)
-      (.getAttribute "account_id")))
+  (element-from-document-by-name "account_id"))
 
 (defn render-to-document
   [input]
