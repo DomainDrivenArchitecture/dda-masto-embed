@@ -51,8 +51,20 @@
         (str "statuses/" status-id "/context")
         #js {}))
 
+(defn get-favorited-by
+  [host-url
+   status-id]
+  (.get (mastodon-client host-url)
+        (str "statuses/" status-id "/favourited_by")
+        #js {}))
+
 (defn-spec get-directory any?
   [host-url ::host-url]
   (.get (mastodon-client host-url)
         (str "directory?local=true")
         #js {}))
+
+; TODO:
+; 1. ID of status with reply: 107655615528722482
+; 2. Get replies to status
+; 3. Filter by favorited and or tags

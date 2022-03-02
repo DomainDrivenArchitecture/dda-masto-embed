@@ -59,20 +59,44 @@
            first)))
     out))
 
+(defn favorited-replies? [host-url reply-id account-name]
+  (let [out (chan)]
+    (go (>! out
+            (->>
+             (<p! (api/get-favorited-by host-url reply-id))
+             api/mastojs->edn
+             (filter #(= account-name (:acct %)))
+             (empty?)
+             (not)
+             (infra/debug))))
+    out))
+
 (defn init []
   (go
     (let [host-url (host-url-from-document)
           account-name (account-name-from-document)
-          account-id (or 
+          account-id (or
                       (account-id-from-document)
                       (<! (find-account-id host-url account-name)))
           statuus (->
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)
-          ]
-      (->> statuus
-           (take 4)
+          test-status (->
+                       (<p! (api/get-replies host-url "107779492679907372"))
+                       api/mastojs->edn)
+          filtered (->>
+                    (:descendants test-status)
+                    (filter #(favorited-replies? host-url (:id %) account-name))
+                    (infra/debug))]
+      ;(->> statuus
+      ;     (take 4)
+      ;     (rb/masto->html)
+      ;     (render-html)
+      ;     (render-to-document))
+      (->> filtered
+           (infra/debug)
            (rb/masto->html)
            (render-html)
-           (render-to-document))
-      )))
+           (render-to-document)))))
+
+
