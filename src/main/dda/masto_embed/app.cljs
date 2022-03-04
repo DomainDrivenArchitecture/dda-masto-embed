@@ -60,14 +60,12 @@
     out))
 
 (defn favorited-replies? [host-url reply-id account-name]
-  (let [out (chan)]
-    (go (>! out
-            (->>
-             (<p! (api/get-favorited-by host-url reply-id))
-             api/mastojs->edn
-             (filter #(= account-name (:acct %)))
-             )))
-    out))
+  (go
+    (infra/debug (->>
+                  (<p! (api/get-favorited-by host-url reply-id))
+                  api/mastojs->edn
+                  (filter #(= account-name (:acct %)))
+                  (infra/debug)))))
 
 (defn init []
   (go
@@ -80,10 +78,11 @@
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)
           test-status (->
-                       (<p! (api/get-favorited-by host-url "107779492679907372"))
+                       (<p! (api/get-favorited-by host-url "107779739758156958"))
                        api/mastojs->edn)
-          filtered (filter #(go (<! (favorited-replies? host-url "107779739758156958" "bastian@digitalcourage.social"))) (:descendants test-status))
+          filtered (filter (favorited-replies? host-url "107779739758156958" "bastian@digitalcourage.social") (:descendants test-status))
           ]
+      ;"107779739758156958"
       ;(->> statuus
       ;     (take 4)
       ;     (rb/masto->html)
@@ -93,6 +92,7 @@
       ;(go (let [test (api/mastojs->edn (<p! (api/get-favorited-by host-url "107779739758156958")))]
       ;      (infra/debug (filter #(= "team@meissa.social" (:acct %)) test))))
       (infra/debug test-status)
+      (infra/debug filtered)
       ;(->> filtered
        ;    (infra/debug)
         ;   (rb/masto->html)
