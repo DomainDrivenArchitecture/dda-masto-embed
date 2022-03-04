@@ -66,9 +66,7 @@
              (<p! (api/get-favorited-by host-url reply-id))
              api/mastojs->edn
              (filter #(= account-name (:acct %)))
-             (empty?)
-             (not)
-             (infra/debug))))
+             )))
     out))
 
 (defn init []
@@ -82,21 +80,24 @@
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)
           test-status (->
-                       (<p! (api/get-replies host-url "107779492679907372"))
+                       (<p! (api/get-favorited-by host-url "107779492679907372"))
                        api/mastojs->edn)
-          filtered (->>
-                    (:descendants test-status)
-                    (filter #(favorited-replies? host-url (:id %) account-name))
-                    (infra/debug))]
+          filtered (filter #(go (<! (favorited-replies? host-url "107779739758156958" "bastian@digitalcourage.social"))) (:descendants test-status))
+          ]
       ;(->> statuus
       ;     (take 4)
       ;     (rb/masto->html)
       ;     (render-html)
       ;     (render-to-document))
-      (->> filtered
-           (infra/debug)
-           (rb/masto->html)
-           (render-html)
-           (render-to-document)))))
+      ;(go (infra/debug (<! (favorited-replies? host-url "107779739758156958" "team@meissa.social"))))
+      ;(go (let [test (api/mastojs->edn (<p! (api/get-favorited-by host-url "107779739758156958")))]
+      ;      (infra/debug (filter #(= "team@meissa.social" (:acct %)) test))))
+      (infra/debug test-status)
+      ;(->> filtered
+       ;    (infra/debug)
+        ;   (rb/masto->html)
+        ;   (render-html)
+        ;   (render-to-document))
+      )))
 
 
