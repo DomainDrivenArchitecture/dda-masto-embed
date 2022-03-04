@@ -11,6 +11,8 @@ pom.xml.asc
 .lein-plugins/
 .lein-failures
 .nrepl-port
+package-lock.json
+output.calva-repl
 .cpcache/
 .shadow-cljs/
 node_modules/
