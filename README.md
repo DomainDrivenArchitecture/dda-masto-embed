@@ -43,7 +43,7 @@ We use bootstrap for rough styling. More styling is up to you at the moment, hel
 
 ## using in reply mode
 Add `replies_to=<REPLY-ID>` and optionally whether you only want to include favorited replies as
-`filter_favorited=<TRUE|FALSE>` to the div.
+`filter_favorited=<true|false>` to the div.
 
 Instead of embedding all Posts of one account, this will fetch the replies to one Post and display them
 
