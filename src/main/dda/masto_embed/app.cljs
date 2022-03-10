@@ -39,6 +39,12 @@
 (defn account-id-from-document []
   (element-from-document-by-name "account_id"))
 
+(defn replies-to-from-document []
+  (element-from-document-by-name "replies_to"))
+
+(defn filter-favorited-from-document []
+  (element-from-document-by-name "filter_favorited"))
+
 (defn render-to-document
   [input]
   (-> js/document
@@ -83,32 +89,42 @@
                      (conj result (<! (favorited-replies? host-url account-name (first loc-replies)))))))))
   out))
 
-
-(defn init []
+(defn account-mode [host-url account-name]
   (go
-    (let [host-url (host-url-from-document)
-          account-name (account-name-from-document)
-          account-id (or
+    (let [account-id (or
                       (account-id-from-document)
                       (<! (find-account-id host-url account-name)))
           statuus (->
                    (<p! (api/get-account-statuses host-url account-id))
-                   api/mastojs->edn)
-          test-status (->
-                       (<p! (api/get-replies host-url "107779492679907372"))
+                   api/mastojs->edn)]
+      (->> statuus
+           (take 4)
+           (rb/masto->html)
+           (render-html)
+           (render-to-document)))))
+
+(defn replies-mode [host-url account-name post-id filter-favorited]
+  (go
+    (let [test-status (->
+                       (<p! (api/get-replies host-url post-id))
                        api/mastojs->edn)
-          favorited (<! (favorited? host-url "bastian@digitalcourage.social" (map :id (:descendants test-status))))
+          favorited (<! (favorited? host-url account-name (map :id (:descendants test-status))))
           combined (map (fn [s f] {:status s :favorited f}) (:descendants test-status) favorited)
           filtered (map :status (filter :favorited combined))
-          ]
-      ;(->> statuus
-      ;     (take 4)
-      ;     (rb/masto->html)
-      ;     (render-html)
-      ;     (render-to-document))
-      (->> filtered
+          statuus (if filter-favorited filtered test-status)]
+      (->> statuus
            (infra/debug)
            (rb/masto->html)
            (render-html)
-           (render-to-document))
-      )))
+           (render-to-document)))))
+
+(defn init []
+  (let [host-url (host-url-from-document)
+        account-name (account-name-from-document)
+        replies-to (replies-to-from-document)
+        filter-favorited (filter-favorited-from-document)
+        ]
+    (if (nil? replies-to)
+      (account-mode host-url account-name)
+      (replies-mode host-url account-name replies-to filter-favorited))
+    ))
