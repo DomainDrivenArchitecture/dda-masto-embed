@@ -41,9 +41,6 @@
         (str "accounts/" account-id "/statuses")
         #js {}))
 
-; https://mastodon.example/api/v1/statuses/:id/context
-; for parent and child statuses
-; "descendants"
 (defn get-replies
   [host-url
    status-id]
@@ -63,8 +60,3 @@
   (.get (mastodon-client host-url)
         (str "directory?local=true")
         #js {}))
-
-; TODO:
-; 1. ID of status with reply: 107655615528722482
-; 2. Get replies to status
-; 3. Filter by favorited and or tags
