@@ -51,16 +51,6 @@
         (str "statuses/" status-id "/context")
         #js {}))
 
-(defn get-filtered-replies
-  [host-url
-   status-id
-   account]
-  (->> (.get (mastodon-client host-url)
-             (str "statuses/" status-id "/context")
-             #js {})
-       mastojs->edn
-       (:descendants)))
-
 (defn get-favorited-by
   [host-url
    status-id]
