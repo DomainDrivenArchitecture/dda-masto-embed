@@ -8,9 +8,9 @@ Embeds mastodon timeline into a html page.
 * Uses JS, **no intermediate server** required,
 * example at [meissa-gmbh.de](https://meissa-gmbh.de/pages/news/)
 * Download latest version at:
-  * [dda-masto-embed.js](https://domaindrivenarchitecture.org/downloads/downloads/dda-masto-embed.js)
-  * [dda-masto-embed.js.sha256](https://domaindrivenarchitecture.org/downloads/downloads/dda-masto-embed.js.sha256)
-  * [dda-masto-embed.js.sha512](https://domaindrivenarchitecture.org/downloads/downloads/dda-masto-embed.js.sha512)
+  * [dda-masto-embed.js](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js)
+  * [dda-masto-embed.js.sha256](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha256)
+  * [dda-masto-embed.js.sha512](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha512)
 * It is **OpenSource** - published under the Apache License, Version 2.0
 
 ## how it looks
