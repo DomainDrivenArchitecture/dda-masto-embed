@@ -45,7 +45,7 @@
     (let [{:keys [id type preview_url url]} (first media)]
       [:div {:class "media"}
        (when (and (some? type) (= type "image"))
-         [:img {:class "card-img-top float-right" :width "100" :height "100"
+         [:img {:class "img-thumbnail" :width "100" :height "100"
                 :src preview_url}])])))
 
 (defn masto->html [statuses]
