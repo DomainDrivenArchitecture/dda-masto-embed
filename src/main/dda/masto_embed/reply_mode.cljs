@@ -58,8 +58,7 @@
               [:div {:class "col-sm"}
                [:h2 {:class "card-title"}
                 [:a {:href (get-in status [:url])}
-                 (t/unparse (t/formatters :date) date) " "
-                 (t/unparse (t/formatters :hour-minute-second) date)]]
+                 (t/unparse (t/formatter "dd.MM.yyyy") date) " "]]
                [:div {:class "card-text"}
                 (:content status)]]
               [:div {:class "col-sm"} (mastomedia->html media_attachments)]]]))
