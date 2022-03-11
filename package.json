@@ -1,7 +1,7 @@
 {
   "name": "dda-masto-embed",
   "author": "meissa GmbH",
-  "version": "0.2.1",
+  "version": "0.2.2-SNAPSHOT",
   "homepage": "https://github.com/DomainDrivenArchitecture/dda-masto-embed",
   "repository": "https://github.com/DomainDrivenArchitecture/dda-masto-embed",
   "license": "Apache-2.0",
