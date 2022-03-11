@@ -4,9 +4,12 @@
 [<img src="https://meissa-gmbh.de/img/community/Mastodon_Logotype.svg" width=20 alt="team@social.meissa-gmbh.de"> team@social.meissa-gmbh.de](https://social.meissa-gmbh.de/@team) | [Website & Blog](https://domaindrivenarchitecture.org)
 
 ## in brief
-Embeds mastodon timeline into a html page. 
+
+dda-masto-embed embedd either your timeline or answers to an specific post on your website.
 * Uses JS, **no intermediate server** required,
-* example at [meissa-gmbh.de](https://meissa-gmbh.de/pages/news/)
+* in answer mode you can deside to show only favorited answers in order to do upfront moderation
+* example for embedding a timeline at [meissa-gmbh.de/news](https://meissa-gmbh.de/pages/news/)
+* example for embedding answers to a specific post at [meissa-gmbh.de/sustainibility_microplastic](https://meissa-gmbh.de/pages/about_meissa/gemeinwohl/sustainability_microplastic/)
 * Download latest version at:
   * [dda-masto-embed.js](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js)
   * [dda-masto-embed.js.sha256](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha256)
@@ -16,8 +19,11 @@ Embeds mastodon timeline into a html page.
 ## how it looks
 ![masto-embed-example.png](doc/masto-embed-example.png)
 
-## how to try it out
-In order to try it, just create a html like 
+## include a timeline
+
+Including a timeline needs the following html. The div with id `masto-embed` configures the timeline to be showed.
+We use bootstrap for a rough styling. More styling is up to you at the moment, help is welcome :-)
+
 ```
 <!doctype html>
 <html>
@@ -39,13 +45,45 @@ In order to try it, just create a html like
 </html>
 ```
 
-We use bootstrap for rough styling. More styling is up to you at the moment, help is welcome :-)
+Reference:
+* `id` has to be `masto-embed`
+* `account_name` is the name of your account. If you know your numeric `account_id` you can use your id instead for a performance increase.
+* `host_url` the url of your mastodon instance.
+
 
 ## using in reply mode
-Add `replies_to=<REPLY-ID>` and optionally whether you only want to include favorited replies as
-`filter_favorited=<true|false>` to the div.
 
-Instead of embedding all Posts of one account, this will fetch the replies to one Post and display them
+Including replies of one of your posts will work as follows:
+
+```
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>masto-embed</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
+          crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="masto-embed" 
+          account_name="team"
+          replies_to="107937234506182462"
+          filter_favorited=false
+          host_url="https://social.meissa-gmbh.de">
+      Here the timeline will appear.
+    </div>
+    <script src="https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js"></script>
+  </body>
+</html>
+```
+Reference:
+* `id` has to be `masto-embed`
+* `account_name` is the name of your account. If you know your numeric `account_id` you can use your id instead for a performance increase.
+* `host_url` the url of your mastodon instance.
+* `replies_to` the id of your post.
+* `filter_favorited=<true|false>` true will show only favorited replies, false will show every answer.
+
 
 ## dev setup
 
