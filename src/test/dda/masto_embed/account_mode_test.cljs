@@ -14,10 +14,10 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns dda.masto-embed.render-bootstrap-test
+(ns dda.masto-embed.account-mode-test
   (:require
    [cljs.test :refer (deftest is)]
-   [dda.masto-embed.render-bootstrap :as sut]))
+   [dda.masto-embed.account-mode :as sut]))
 
 (def statuses [{:mentions []
                :emojis []

@@ -13,17 +13,30 @@
 ; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
-(ns dda.masto-embed.app
-  (:require
-   [dda.masto-embed.browser :as b]
-   [dda.masto-embed.reply-mode :as rm]
-   [dda.masto-embed.account-mode :as am]))
+(ns dda.masto-embed.browser)
 
-(defn init []
-  (let [host-url (b/host-url-from-document)
-        account-name (b/account-name-from-document)
-        replies-to (b/replies-to-from-document)
-        filter-favorited (b/filter-favorited-from-document)]
-    (if (nil? replies-to)
-      (am/account-mode host-url account-name)
-      (rm/replies-mode host-url account-name replies-to filter-favorited))))
+(def masto-embed "masto-embed")
+
+(defn element-from-document-by-name [name]
+  (-> js/document
+      (.getElementById masto-embed)
+      (.getAttribute name)))
+
+(defn host-url-from-document []
+  (element-from-document-by-name "host_url"))
+
+(defn account-name-from-document []
+  (element-from-document-by-name "account_name"))
+
+(defn replies-to-from-document []
+  (element-from-document-by-name "replies_to"))
+
+(defn filter-favorited-from-document []
+  (element-from-document-by-name "filter_favorited"))
+
+(defn render-to-document
+  [input]
+  (-> js/document
+      (.getElementById masto-embed)
+      (.-innerHTML)
+      (set! input)))
