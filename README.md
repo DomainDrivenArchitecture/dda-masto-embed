@@ -47,7 +47,7 @@ We use bootstrap for a rough styling. More styling is up to you at the moment, h
 
 Reference:
 * `id` has to be `masto-embed`
-* `account_name` is the name of your account. If you know your numeric `account_id` you can use your id instead for a performance increase.
+* `account_name` is the name of your account.
 * `host_url` the url of your mastodon instance.
 
 
@@ -79,7 +79,7 @@ Including replies of one of your posts will work as follows:
 ```
 Reference:
 * `id` has to be `masto-embed`
-* `account_name` is the name of your account. If you know your numeric `account_id` you can use your id instead for a performance increase.
+* `account_name` is the name of your account.
 * `host_url` the url of your mastodon instance.
 * `replies_to` the id of your post.
 * `filter_favorited=<true|false>` true will show only favorited replies, false will show every answer.
