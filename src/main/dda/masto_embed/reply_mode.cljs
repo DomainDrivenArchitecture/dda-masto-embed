@@ -25,29 +25,33 @@
    [dda.masto-embed.account-mode :as am]
    ))
 
-(defn mastocard->html [card]
+(defn mastocard->html [card media]
   (when (some? card)
-    (let [{:keys [title description image url]} card]
+    (let [{:keys [title description image url]} card
+          {:keys [type preview_url url]} (first media)]
       [:div {:class "card" :url url}
        (when (some? image)
          [:img {:class "card-img-top" :src image}])
+       (when (and (some? type) (= type "image"))
+         [:img {:class "card-img-top" :src preview_url}])
+       [:p media]
        [:h3 {:class "card-title"} title]
        [:p {:class "card-body"} description]])))
 
 (defn masto->html [statuses]
   [:ul {:class "list-group"}
    (map (fn [status]
-          (let [{:keys [created_at card]} status
+          (let [{:keys [created_at card media_attachments]} status
                 date (t/parse created_at)]
             [:li {:class "list-group-item, card"}
              [:div {:class "card-body"}
               [:h2 {:class "card-title"}
-               [:a {:href (get-in status [:account :url])}
+               [:a {:href (get-in status [:url])}
                 (t/unparse (t/formatters :date) date) " "
                 (t/unparse (t/formatters :hour-minute-second) date)]]
-              [:p {:class "card-text"}
+              [:div {:class "card-text"}
                (:content status)
-               (mastocard->html card)]]]))
+               (mastocard->html card media_attachments)]]]))
         statuses)])
 
 (defn favorited-replies? [host-url account-name reply-id]
@@ -82,9 +86,8 @@
           favorited (<! (favorited? host-url account-name (map :id (:descendants replies))))
           combined (map (fn [s f] {:status s :favorited f}) (:descendants replies) favorited)]
       (->> combined
-           (filter #(infra/debug (or (not filter-favorited) (:favorited %))))
+           (filter #(or (not filter-favorited) (:favorited %)))
            (map :status)
-           (infra/debug)
            (masto->html)
            (render-html)
            (b/render-to-document)))))
