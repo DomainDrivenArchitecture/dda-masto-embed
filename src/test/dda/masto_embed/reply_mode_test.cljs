@@ -110,12 +110,14 @@
                 :spoiler_text ""}])
 
 (deftest test-mastodon->html 
-  (is (= [:ul {:class "list-group"}
-          '([:li {:class "list-group-item, card"}
-             [:div {:class "card-body"}
-              [:h2 {:class "card-title"}
-               [:a {:href "https://social.meissa-gmbh.de/@jerger/107937257700481042"} "2022-03-11" " " "09:44:07"]]
-              [:div {:class "card-text"}
-               "<p><span class=\"h-card\"><a href=\"https://social.meissa-gmbh.de/@team\" class=\"u-url mention\">@<span>team</span></a></span> Hier mein erstes Bild :-)</p>"
-               [:div {:class "media"} [:img {:class "card-img-top", :src "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/107/937/248/257/634/217/small/923e75c7684a2c31.jpg"}]]]]])]
+  (is (= [:ul {:class "list-group"} 
+          '([:li {:class "list-group-item, card"} 
+             [:div {:class "card-body row"} 
+              [:div {:class "col-sm"} 
+               [:h2 {:class "card-title"} 
+                [:a {:href "https://social.meissa-gmbh.de/@jerger/107937257700481042"} "2022-03-11" " " "09:44:07"]] 
+               [:div {:class "card-text"} "<p><span class=\"h-card\"><a href=\"https://social.meissa-gmbh.de/@team\" class=\"u-url mention\">@<span>team</span></a></span> Hier mein erstes Bild :-)</p>"]] 
+              [:div {:class "col-sm"} 
+               [:div {:class "media"} 
+                [:img {:class "img-thumbnail", :width "100", :height "100", :src "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/107/937/248/257/634/217/small/923e75c7684a2c31.jpg"}]]]]])]
          (sut/masto->html statuses))))
