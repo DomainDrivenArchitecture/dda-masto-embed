@@ -38,20 +38,31 @@
        [:h3 {:class "card-title"} title]
        [:p {:class "card-body"} description]])))
 
+
+
+(defn mastomedia->html [media]
+  (when (some? media)
+    (let [{:keys [id type preview_url url]} (first media)]
+      [:div {:class "media"}
+       (when (and (some? type) (= type "image"))
+         [:img {:class "card-img-top float-right" :width "100" :height "100"
+                :src preview_url}])])))
+
 (defn masto->html [statuses]
   [:ul {:class "list-group"}
    (map (fn [status]
           (let [{:keys [created_at card media_attachments]} status
                 date (t/parse created_at)]
             [:li {:class "list-group-item, card"}
-             [:div {:class "card-body"}
-              [:h2 {:class "card-title"}
-               [:a {:href (get-in status [:url])}
-                (t/unparse (t/formatters :date) date) " "
-                (t/unparse (t/formatters :hour-minute-second) date)]]
-              [:div {:class "card-text"}
-               (:content status)
-               (mastocard->html card media_attachments)]]]))
+             [:div {:class "card-body row"}
+              [:div {:class "col-sm"}
+               [:h2 {:class "card-title"}
+                [:a {:href (get-in status [:url])}
+                 (t/unparse (t/formatters :date) date) " "
+                 (t/unparse (t/formatters :hour-minute-second) date)]]
+               [:div {:class "card-text"}
+                (:content status)]]
+              [:div {:class "col-sm"} (mastomedia->html media_attachments)]]]))
         statuses)])
 
 (defn favorited-replies? [host-url account-name reply-id]
