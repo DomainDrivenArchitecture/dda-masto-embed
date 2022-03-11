@@ -105,14 +105,14 @@
 
 (defn replies-mode [host-url account-name post-id filter-favorited]
   (go
-    (let [test-status (->
-                       (<p! (api/get-replies host-url post-id))
-                       api/mastojs->edn)
-          favorited (<! (favorited? host-url account-name (map :id (:descendants test-status))))
-          combined (map (fn [s f] {:status s :favorited f}) (:descendants test-status) favorited)
-          filtered (map :status (filter :favorited combined))
-          statuus (if filter-favorited filtered test-status)]
-      (->> statuus
+    (let [replies (->
+                   (<p! (api/get-replies host-url post-id))
+                   api/mastojs->edn)
+          favorited (<! (favorited? host-url account-name (map :id (:descendants replies))))
+          combined (map (fn [s f] {:status s :favorited f}) (:descendants replies) favorited)]
+      (->> combined
+           (filter #(infra/debug (or (not filter-favorited) (:favorited %))))
+           (map :status)
            (infra/debug)
            (rb/masto->html)
            (render-html)
@@ -122,8 +122,7 @@
   (let [host-url (host-url-from-document)
         account-name (account-name-from-document)
         replies-to (replies-to-from-document)
-        filter-favorited (filter-favorited-from-document)
-        ]
+        filter-favorited (filter-favorited-from-document)]
     (if (nil? replies-to)
       (account-mode host-url account-name)
       (replies-mode host-url account-name replies-to filter-favorited))
