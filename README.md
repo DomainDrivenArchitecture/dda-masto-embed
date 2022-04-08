@@ -7,7 +7,7 @@
 
 dda-masto-embed embedd either your timeline or answers to an specific post on your website.
 * Uses JS, **no intermediate server** required,
-* in answer mode you can deside to show only favorited answers in order to do upfront moderation
+* in answer mode you can decide to show only favorited answers in order to do upfront moderation
 * example for embedding a timeline at [meissa-gmbh.de/news](https://meissa-gmbh.de/pages/news/)
 * example for embedding answers to a specific post at [meissa-gmbh.de/sustainibility_microplastic](https://meissa-gmbh.de/pages/about_meissa/gemeinwohl/sustainability_microplastic/)
 * Download latest version at:
@@ -21,8 +21,8 @@ dda-masto-embed embedd either your timeline or answers to an specific post on yo
 
 ## include a timeline
 
-Including a timeline needs the following html. The div with id `masto-embed` configures the timeline to be showed.
-We use bootstrap for a rough styling. More styling is up to you at the moment, help is welcome :-)
+Including a timeline needs the following html. The div with id `masto-embed` configures the timeline to be shown.
+We use bootstrap for rough styling. More styling is up to you at the moment, help is welcome :-)
 
 ```
 <!doctype html>
