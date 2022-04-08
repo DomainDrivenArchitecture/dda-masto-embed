@@ -97,6 +97,7 @@
           combined (map (fn [s f] {:status s :favorited f}) (:descendants replies) favorited)]
       (->> combined
            (filter #(or (not filter-favorited) (:favorited %)))
+           (reverse)
            (map :status)
            (masto->html)
            (render-html)
