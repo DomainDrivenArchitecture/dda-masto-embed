@@ -3,7 +3,7 @@
 
 [<img src="https://meissa-gmbh.de/img/community/Mastodon_Logotype.svg" width=20 alt="team@social.meissa-gmbh.de"> team@social.meissa-gmbh.de](https://social.meissa-gmbh.de/@team) | [Website & Blog](https://domaindrivenarchitecture.org)
 
-## in brief
+## In brief
 
 dda-masto-embed embedd either your timeline or answers to an specific post on your website.
 * Uses JS, **no intermediate server** required,
@@ -16,10 +16,17 @@ dda-masto-embed embedd either your timeline or answers to an specific post on yo
   * [dda-masto-embed.js.sha512](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha512)
 * It is **OpenSource** - published under the Apache License, Version 2.0
 
-## how it looks
+## Development & mirrors
+Development happens at: https://github.com/DomainDrivenArchitecture/dda-masto-embed
+
+Mirrors are: 
+* https://gitlab.com/domaindrivenarchitecture/dda-masto-embed
+* https://repo.prod.meissa.de/meissa/dda-masto-embed
+
+## How it looks
 ![masto-embed-example.png](doc/masto-embed-example.png)
 
-## include a timeline
+## Include a timeline
 
 Including a timeline needs the following html. The div with id `masto-embed` configures the timeline to be shown.
 We use bootstrap for rough styling. More styling is up to you at the moment, help is welcome :-)
@@ -51,7 +58,7 @@ Reference:
 * `host_url` the url of your mastodon instance.
 
 
-## using in reply mode
+## Using in reply mode
 
 Including replies of one of your posts will work as follows:
 
@@ -85,7 +92,7 @@ Reference:
 * `filter_favorited=<true|false>` true will show only favorited replies, false will show every answer.
 
 
-## dev setup
+## Dev setup
 
 ```
 npm install -g npx
@@ -100,13 +107,13 @@ open browser at http://localhost:8080
 Connect your repl for :frontend
 
 
-## run the tests
+## Run the tests
 
 ```
 shadow-cljs compile test
 ```
 
-## releasing
+## Releasing
 ### prod release
 ```
 #adjust version
@@ -122,6 +129,6 @@ git commit -am "version bump" && git push
 
 ## License
 
-Copyright © 2021 meissa GmbH
+Copyright © 2023 meissa GmbH
 Licensed under the [Apache License, Version 2.0](LICENSE) (the "License")
 Pls. find licenses of our subcomponents [here](doc/SUBCOMPONENT_LICENSE)
