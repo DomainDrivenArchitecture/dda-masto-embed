@@ -17,11 +17,12 @@ dda-masto-embed embedd either your timeline or answers to an specific post on yo
 * It is **OpenSource** - published under the Apache License, Version 2.0
 
 ## Development & mirrors
-Development happens at: https://github.com/DomainDrivenArchitecture/dda-masto-embed
+Development happens at: https://repo.prod.meissa.de/meissa/dda-masto-embed
 
 Mirrors are: 
-* https://gitlab.com/domaindrivenarchitecture/dda-masto-embed
-* https://repo.prod.meissa.de/meissa/dda-masto-embed
+* https://codeberg.org/meissa/dda-masto-embed (issues and PR)
+* https://gitlab.com/domaindrivenarchitecture/dda-masto-embed (CI)
+* https://github.com/DomainDrivenArchitecture/dda-masto-embed
 
 ## How it looks
 ![masto-embed-example.png](doc/masto-embed-example.png)
