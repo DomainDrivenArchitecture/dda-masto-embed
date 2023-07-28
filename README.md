@@ -128,6 +128,13 @@ vi package.json
 git commit -am "version bump" && git push
 ```
 
+## Development & mirrors
+Development happens at: https://repo.prod.meissa.de/meissa/dda-masto-embed
+
+Mirrors are:
+* https://gitlab.com/domaindrivenarchitecture/dda-masto-embed (CI issues and PR)
+* https://github.com/DomainDrivenArchitecture/dda-masto-embed
+
 ## License
 
 Copyright © 2023 meissa GmbH
