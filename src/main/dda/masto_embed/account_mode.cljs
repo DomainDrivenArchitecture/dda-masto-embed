@@ -71,6 +71,7 @@
                    api/mastojs->edn)]
       (->> statuus
            (filter #(= nil (:reblog %)))
+           (filter #(= nil (:in_reply_to_account_id %)))
            (take 4)
            (masto->html)
            (render-html)
