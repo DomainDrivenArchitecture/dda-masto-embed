@@ -1,0 +1,55 @@
+stages:
+  - build_and_test
+  - package
+  - upload
+
+.cljs-job: &cljs
+  image: "domaindrivenarchitecture/ddadevops-clj-cljs:4.11.3"
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .shadow-cljs/
+      - .m2
+  before_script:
+  - export RELEASE_ARTIFACT_TOKEN=$MEISSA_REPO_BUERO_RW
+  - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+  - npm install
+
+.tag_only: &tag_only
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_TAG =~ /^[0-9]+\.[0-9]+\.[0-9]+$/'
+
+test-cljs:
+  <<: *cljs
+  stage: build_and_test
+  script:
+    - pyb test_cljs
+
+report-frontend:
+  <<: *cljs
+  stage: package
+  script:
+    - pyb report_frontend
+  artifacts:
+    paths:
+      - target/frontend-build/build-report.html
+
+package-frontend:
+  <<: *cljs
+  stage: package
+  script:
+    - pyb package_frontend
+  artifacts:
+    paths:
+      - target/frontend-build
+
+release-to-forgejo:
+  <<: *cljs
+  <<: *tag_only
+  stage: upload
+  script:
+    - pyb publish_artifacts
+
