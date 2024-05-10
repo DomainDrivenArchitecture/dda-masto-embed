@@ -19,3 +19,4 @@ node_modules/
 /public/js
 /out
 package-lock.json
+*.pyc
