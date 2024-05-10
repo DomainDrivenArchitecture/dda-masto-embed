@@ -35,7 +35,7 @@ report-frontend:
     - pyb report_frontend
   artifacts:
     paths:
-      - target/frontend-build/build-report.html
+      - target/build-report.html
 
 package-frontend:
   <<: *cljs
@@ -44,7 +44,7 @@ package-frontend:
     - pyb package_frontend
   artifacts:
     paths:
-      - target/frontend-build
+      - target/
 
 release-to-forgejo:
   <<: *cljs
