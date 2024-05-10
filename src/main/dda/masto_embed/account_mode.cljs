@@ -57,10 +57,11 @@
            (<p! (api/get-directory host-url))
            api/mastojs->edn
            (filter #(= account-name (:acct %)))
-           (infra/debug)
            (map :id)
            first)))
     out))
+
+; (infra/debug)
 
 (defn account-mode [host-url account-name]
   (go
@@ -69,6 +70,7 @@
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)]
       (->> statuus
+           (filter #(= nil (:reblog %)))
            (take 4)
            (masto->html)
            (render-html)
