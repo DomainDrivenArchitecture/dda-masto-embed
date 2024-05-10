@@ -41,7 +41,7 @@
             [:li {:class "list-group-item, card"}
              [:div {:class "card-body"}
               [:h2 {:class "card-title"}
-               [:a {:href (get-in status [:card :url])}
+               [:a {:href (get-in status [:url])}
                 (t/unparse (t/formatters :date) date) " "
                 (t/unparse (t/formatters :hour-minute-second) date)]]
               [:p {:class "card-text"}
