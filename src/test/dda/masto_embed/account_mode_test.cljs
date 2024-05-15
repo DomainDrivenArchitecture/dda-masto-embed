@@ -157,7 +157,7 @@
   (is (= [:ul {:class "list-group"}
           '([:li {:class "list-group-item, card"}
              [:div {:class "card-body"}
-              [:h2 {:class "card-title"} [:a {:href "https://social.meissa-gmbh.de/@team"} "2020-05-17" " " "10:12:10"]]
+              [:h2 {:class "card-title"} [:a {:href "https://social.meissa-gmbh.de/users/team/statuses/104183256213204298/activity"} "2020-05-17" " " "10:12:10"]]
               [:p {:class "card-text"} "<p>We&apos;ve a new asciicast ... </p>"
                nil]]])]
          (sut/masto->html statuses))))

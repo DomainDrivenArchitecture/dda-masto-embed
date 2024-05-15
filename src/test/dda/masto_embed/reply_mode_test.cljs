@@ -115,7 +115,7 @@
              [:div {:class "card-body row"} 
               [:div {:class "col-sm"} 
                [:h2 {:class "card-title"} 
-                [:a {:href "https://social.meissa-gmbh.de/@jerger/107937257700481042"} "2022-03-11" " " "09:44:07"]] 
+                [:a {:href "https://social.meissa-gmbh.de/@jerger/107937257700481042"} "11.03.2022" " "]] 
                [:div {:class "card-text"} "<p><span class=\"h-card\"><a href=\"https://social.meissa-gmbh.de/@team\" class=\"u-url mention\">@<span>team</span></a></span> Hier mein erstes Bild :-)</p>"]] 
               [:div {:class "col-sm"} 
                [:div {:class "media"} 

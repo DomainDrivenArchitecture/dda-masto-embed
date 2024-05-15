@@ -14,9 +14,9 @@
          :output-to "target/node-tests.js"
          :autorun   true}
   :lib {:target :node-library
-        :output-to "target/lib.js"
+        :output-to "target/dda-masto-embed.js"
         :exports {:init dda.masto-embed.app/init}
-        :release {:compiler-options {:optimizations :simple}}}
+        :release {:compiler-options {:optimizations :advanced}}}
   :frontend {:target :browser
              :modules {:main {:init-fn dda.masto-embed.app/init}}
              :release {}}}}

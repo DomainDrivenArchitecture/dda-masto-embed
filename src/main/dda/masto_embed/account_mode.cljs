@@ -41,7 +41,7 @@
             [:li {:class "list-group-item, card"}
              [:div {:class "card-body"}
               [:h2 {:class "card-title"}
-               [:a {:href (get-in status [:account :url])}
+               [:a {:href (get-in status [:url])}
                 (t/unparse (t/formatters :date) date) " "
                 (t/unparse (t/formatters :hour-minute-second) date)]]
               [:p {:class "card-text"}
@@ -57,10 +57,11 @@
            (<p! (api/get-directory host-url))
            api/mastojs->edn
            (filter #(= account-name (:acct %)))
-           (infra/debug)
            (map :id)
            first)))
     out))
+
+; (infra/debug)
 
 (defn account-mode [host-url account-name]
   (go
@@ -69,6 +70,8 @@
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)]
       (->> statuus
+           (filter #(= nil (:reblog %)))
+           (filter #(= nil (:in_reply_to_account_id %)))
            (take 4)
            (masto->html)
            (render-html)
