@@ -76,3 +76,17 @@
            (masto->html)
            (render-html)
            (b/render-to-document)))))
+
+; Execute in browser repl to get some infos about incoming data
+(defn account-mode-debug [host-url account-name]
+  (go
+    (let [account-id (<! (find-account-id host-url account-name))
+          statuus (->
+                   (<p! (api/get-account-statuses host-url account-id))
+                   api/mastojs->edn)]
+      (->> statuus
+           (filter #(= nil (:reblog %)))
+           (filter #(= nil (:in_reply_to_account_id %)))
+           (take 4)
+           (infra/debug)
+           ))))
