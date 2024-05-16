@@ -87,7 +87,7 @@
       (cm/replace-all-matching-values-by-new-value "FAVOURITES_COUNT" favourites_count)))
 
 (defn masto->html2 [statuses]
-  (let [html (b/index-html-hiccup)]
+  (let [html (b/post-html-hiccup)]
     (map (fn [status]
            (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
              (-> html

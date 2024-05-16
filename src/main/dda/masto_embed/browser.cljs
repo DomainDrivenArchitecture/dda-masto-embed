@@ -20,10 +20,10 @@
 
 (def masto-embed "masto-embed")
 
-(def index-html (rc/inline "dda/masto_embed/resources/post.html"))
+(def post-html (rc/inline "dda/masto_embed/resources/post.html"))
 
-(defn index-html-hiccup []
-  (h/as-hiccup (h/parse index-html)))
+(defn post-html-hiccup []
+  (h/as-hiccup (h/parse post-html)))
 
 (defn element-from-document-by-name [name]
   (-> js/document
