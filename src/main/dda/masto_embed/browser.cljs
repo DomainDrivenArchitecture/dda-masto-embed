@@ -13,9 +13,17 @@
 ; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
-(ns dda.masto-embed.browser)
+(ns dda.masto-embed.browser
+  (:require 
+   [hickory.core :as h]
+   [shadow.resource :as rc]))
 
 (def masto-embed "masto-embed")
+
+(def index-html (rc/inline "dda/masto_embed/resources/index.html"))
+
+(defn index-html-hiccup []
+  (h/as-hiccup (h/parse index-html)))
 
 (defn element-from-document-by-name [name]
   (-> js/document

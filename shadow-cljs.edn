@@ -1,13 +1,14 @@
 ;; shadow-cljs configuration
 {:source-paths
- ["src/dev"
-  "src/main"
+ ["src/main"
   "src/test"]
 
  :dependencies
  [[orchestra "2021.01.01-1"]
   [hiccups "0.3.0"]
-  [com.andrewmcveigh/cljs-time "0.5.2"]]
+  [org.clj-commons/hickory "0.7.4"]
+  [com.andrewmcveigh/cljs-time "0.5.2"]
+  [org.domaindrivenarchitecture/c4k-common-cljs "6.2.3"]]
  :dev-http {8080 "public"}
  :builds
  {:test {:target    :node-test
