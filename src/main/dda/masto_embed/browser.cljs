@@ -20,7 +20,7 @@
 
 (def masto-embed "masto-embed")
 
-(def index-html (rc/inline "dda/masto_embed/resources/index.html"))
+(def index-html (rc/inline "dda/masto_embed/resources/post.html"))
 
 (defn index-html-hiccup []
   (h/as-hiccup (h/parse index-html)))
