@@ -4,13 +4,12 @@
   --medium: 0.5em;
   --small: 0.25em;
   margin-bottom: var(--large);
-  
   display: grid;
-  grid: ". post ." / 33% 33% 33%;
+  grid: ". post ." / auto 66% auto;
 
   .mastodon-post {
     grid-area: post;
-    justify-self: center;
+    justify-self: stretch;
     display: grid;
     grid: 
       "header"
@@ -18,7 +17,7 @@
       "image"
       "link-preview"
       "footer" /
-      420px;
+      100%;
     border: 1px solid #ccc;
     padding: var(--small);
 
@@ -26,13 +25,13 @@
       grid-area: header;
       justify-self: stretch;
       display: grid;
-      grid:  "avatar names . date" / 60px;
+      grid:  "avatar names . date" / max-content max-content auto 20%;
       margin: var(--medium);
   
       .mastodon-post-avatar {
         grid-area: avatar;
         width: auto;
-        height: 116%;
+        max-height: 60px;
         object-fit: contain;
       }
   
@@ -58,6 +57,7 @@
       }
 
       .mastodon-post-date {
+        font-size: 0.95vw;
         grid-area: date;
         justify-self: end;
         align-self: center;
@@ -70,7 +70,7 @@
       display: grid;
       grid: 
         "text"
-        "image" / auto;
+        "image" / 100%;
       padding: var(--medium);
 
       .mastodon-post-text {
@@ -79,10 +79,10 @@
   
       .mastodon-post-image {
         grid-area: image;
-        width: 100%; /* Adjust as needed */
-        align-self: center;
-        justify-self: center;
+        max-width: 100%; /* Adjust as needed */
         height: auto;
+        align-self: center;
+        justify-self: center;        
         border-radius: 1em;
       }
     }
@@ -102,7 +102,7 @@
       .mastodon-post-link-image{
         grid-area: image;
         justify-self: center;
-        width: 100%;
+        max-width: 100%;
         height: auto;
         object-fit: cover;
         border-radius: 0.25em;
@@ -189,4 +189,29 @@
       }
     }
   }
+
+  @media screen and (max-width: 575px) {
+    font-size: 2vw;
+  }
+
+  @media screen and (min-width: 576px) {
+    font-size: 2vw;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 2vw;
+  }
+
+  @media screen and (min-width: 992px) {
+    font-size: 1.5vw;
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: 1.25vw;
+  }
+
+  @media screen and (min-width: 1400px) {
+    font-size: 1.1vw;
+  }
+
 }
