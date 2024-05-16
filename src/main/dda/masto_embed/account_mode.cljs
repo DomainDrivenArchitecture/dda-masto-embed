@@ -22,6 +22,7 @@
    [dda.masto-embed.api :as api]
    [dda.masto-embed.infra :as infra]
    [dda.masto-embed.browser :as b]
+   [dda.c4k-common.common :as cm]
    ))
 
 (defn mastocard->html [card]
@@ -48,6 +49,21 @@
                (:content status)
                (mastocard->html card)]]]))
         statuses)])
+
+(defn masto->html2 [statuses]
+  (let [html (b/index-html-hiccup)]
+    (map (fn [status]
+           (let [{:keys [account created-at]} status])))))
+
+(defn masto-header->html [html account created-at]
+  (let [{:keys [username display_name avatar_static]} account
+        date (t/parse created-at)]
+    (-> html
+        (cm/replace-all-matching-values-by-new-value "AVATAR_URL" avatar_static)
+        (cm/replace-all-matching-values-by-new-value "DISPLAY_NAME" display_name)
+        (cm/replace-all-matching-values-by-new-value "ACCOUNT_NAME" username)
+        (cm/replace-all-matching-values-by-new-value "DATETIME" created-at)
+        (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "dd M yy") date)))))
 
 (defn find-account-id [host-url account-name]
   (let [out (chan)]
@@ -87,6 +103,95 @@
       (->> statuus
            (filter #(= nil (:reblog %)))
            (filter #(= nil (:in_reply_to_account_id %)))
-           (take 4)
+           (take 1)
            (infra/debug)
            ))))
+
+{:mentions
+ [{:id "109517000301838437",
+   :username "J12t",
+   :url "https://social.coop/@J12t",
+   :acct "J12t@social.coop"}],
+ :emojis [],
+ :tags
+ [{:name "federation",
+   :url "https://social.meissa-gmbh.de/tags/federation"}
+  {:name "test", :url "https://social.meissa-gmbh.de/tags/test"}],
+ :reblog nil,
+ :replies_count 1,
+ :in_reply_to_account_id nil,
+ :reblogs_count 0,
+ :content
+ "<p><span class=\"h-card\" translate=\"no\"><a href=\"https://social.coop/@J12t\" class=\"u-url mention\">@<span>J12t</span></a></span> Hi Johannes, do you have a solution for such integration tests in place / planed?</p><p><a href=\"https://codeberg.org/forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go#L76-L115\" target=\"_blank\" rel=\"nofollow noopener noreferrer\" translate=\"no\"><span class=\"invisible\">https://</span><span class=\"ellipsis\">codeberg.org/forgejo/forgejo/s</span><span class=\"invisible\">rc/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go#L76-L115</span></a></p><p>Would love to be able to make better integration tests ...</p><p><a href=\"https://social.meissa-gmbh.de/tags/federation\" class=\"mention hashtag\" rel=\"tag\">#<span>federation</span></a> <a href=\"https://social.meissa-gmbh.de/tags/test\" class=\"mention hashtag\" rel=\"tag\">#<span>test</span></a></p>",
+ :sensitive false,
+ :favourites_count 1,
+ :in_reply_to_id nil,
+ :poll nil,
+ :account
+ {:acct "meissa",
+  :last_status_at "2024-05-15",
+  :emojis [],
+  :bot false,
+  :group false,
+  :following_count 80,
+  :avatar_static
+  "https://cdn.masto.host/socialmeissagmbhde/accounts/avatars/112/400/753/820/571/578/original/fd05f46bcc0c5c69.png",
+  :roles [],
+  :fields
+  [{:name "See also",
+    :value
+    "<a href=\"https://meissa.de\" target=\"_blank\" rel=\"nofollow noopener noreferrer me\" translate=\"no\"><span class=\"invisible\">https://</span><span class=\"\">meissa.de</span><span class=\"invisible\"></span></a>",
+    :verified_at "2024-05-14T09:08:20.463+00:00"}
+   {:name "OpenPGP",
+    :value "DF43207F1ABF673D8C7F5D1D756A2A4873B93D34",
+    :verified_at nil}],
+  :username "meissa",
+  :header_static
+  "https://cdn.masto.host/socialmeissagmbhde/accounts/headers/112/400/753/820/571/578/original/915998366b020667.jpg",
+  :discoverable true,
+  :statuses_count 10,
+  :header
+  "https://cdn.masto.host/socialmeissagmbhde/accounts/headers/112/400/753/820/571/578/original/915998366b020667.jpg",
+  :note
+  "<p>DevOps, Cloud, KI, Clojure, Kotlin, JVM, Python &amp; k8s, Germany, Reutlingen, Tübingen, Stuttgart, genossenschaftlich, OpenSource, TestDriven, Maintainer, Forgejo, Federation</p>",
+  :noindex false,
+  :locked false,
+  :id "112400753820571578",
+  :avatar
+  "https://cdn.masto.host/socialmeissagmbhde/accounts/avatars/112/400/753/820/571/578/original/fd05f46bcc0c5c69.png",
+  :url "https://social.meissa-gmbh.de/@meissa",
+  :uri "https://social.meissa-gmbh.de/users/meissa",
+  :display_name "meissa-team",
+  :followers_count 172,
+  :created_at "2024-05-07T00:00:00.000Z"},
+ :card
+ {:description "forgejo - Beyond coding. We forge.",
+  :author_url "",
+  :image_description "",
+  :width 290,
+  :type "link",
+  :embed_url "",
+  :blurhash "URC3:FsU1xJS-8NvJ9$OFIS3wexEJ9n*xEbG",
+  :title
+  "forgejo/tests/integration/api_activitypub_repository_test.go at fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e",
+  :published_at nil,
+  :provider_name "Codeberg.org",
+  :language "en",
+  :url
+  "https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go",
+  :author_name "",
+  :image
+  "https://cdn.masto.host/socialmeissagmbhde/cache/preview_cards/images/000/545/643/original/199336f5aa5b9683.png",
+  :provider_url "",
+  :height 290,
+  :html ""},
+ :language "en",
+ :id "112446229070164194",
+ :url "https://social.meissa-gmbh.de/@meissa/112446229070164194",
+ :media_attachments [],
+ :uri
+ "https://social.meissa-gmbh.de/users/meissa/statuses/112446229070164194",
+ :edited_at nil,
+ :visibility "public",
+ :created_at "2024-05-15T17:14:50.257Z",
+ :spoiler_text ""}
