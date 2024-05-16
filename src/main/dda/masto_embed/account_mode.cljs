@@ -50,13 +50,14 @@
                (mastocard->html card)]]]))
         statuses)])
 
-(defn masto-header->html [html account created_at]
+(defn masto-header->html [html account created_at url]
   (let [{:keys [username display_name avatar_static]} account
         date (t/parse created_at)]
     (-> html
         (cm/replace-all-matching-values-by-new-value "AVATAR_URL" avatar_static)
+        (cm/replace-all-matching-values-by-new-value "POST_URL" url)
         (cm/replace-all-matching-values-by-new-value "DISPLAY_NAME" display_name)
-        (cm/replace-all-matching-values-by-new-value "ACCOUNT_NAME" username)
+        (cm/replace-all-matching-values-by-new-value "ACCOUNT_NAME" (str "@" username))
         (cm/replace-all-matching-values-by-new-value "DATETIME" created_at)
         (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "EEEE, dd MMMM yyyy") date))
         )))
@@ -70,6 +71,15 @@
     (-> html
         (cm/replace-all-matching-values-by-new-value "POST_IMG_URL" media))))
 
+(defn masto-link-prev->html [html card]
+  (let [{:keys [url image title description]} card]
+    (-> html 
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description)
+        )))
+
 (defn masto-footer->html [html replies_count reblogs_count favourites_count]
   (-> html
       (cm/replace-all-matching-values-by-new-value "REPLIES_COUNT" replies_count)
@@ -79,11 +89,12 @@
 (defn masto->html2 [statuses]
   (let [html (b/index-html-hiccup)]
     (map (fn [status]
-           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count]} status]
+           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
              (-> html
-                 (masto-header->html account created_at)
+                 (masto-header->html account created_at url)
                  (masto-content->html content)
                  (masto-media->html media_attachments)
+                 (masto-link-prev->html card)
                  (masto-footer->html replies_count reblogs_count favourites_count))))
          statuses)))
 
