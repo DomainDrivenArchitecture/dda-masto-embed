@@ -50,20 +50,42 @@
                (mastocard->html card)]]]))
         statuses)])
 
-(defn masto->html2 [statuses]
-  (let [html (b/index-html-hiccup)]
-    (map (fn [status]
-           (let [{:keys [account created-at]} status])))))
-
-(defn masto-header->html [html account created-at]
+(defn masto-header->html [html account created_at]
   (let [{:keys [username display_name avatar_static]} account
-        date (t/parse created-at)]
+        date (t/parse created_at)]
     (-> html
         (cm/replace-all-matching-values-by-new-value "AVATAR_URL" avatar_static)
         (cm/replace-all-matching-values-by-new-value "DISPLAY_NAME" display_name)
         (cm/replace-all-matching-values-by-new-value "ACCOUNT_NAME" username)
-        (cm/replace-all-matching-values-by-new-value "DATETIME" created-at)
-        (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "dd M yy") date)))))
+        (cm/replace-all-matching-values-by-new-value "DATETIME" created_at)
+        (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "EEEE, dd MMMM yyyy") date))
+        )))
+
+(defn masto-content->html [html content]
+    (-> html
+        (cm/replace-all-matching-values-by-new-value "POST_TEXT" content)))
+
+(defn masto-media->html [html media_attachments]
+  (let [{:keys [media]} media_attachments]
+    (-> html
+        (cm/replace-all-matching-values-by-new-value "POST_IMG_URL" media))))
+
+(defn masto-footer->html [html replies_count reblogs_count favourites_count]
+  (-> html
+      (cm/replace-all-matching-values-by-new-value "REPLIES_COUNT" replies_count)
+      (cm/replace-all-matching-values-by-new-value "REBLOGS_COUNT" reblogs_count)
+      (cm/replace-all-matching-values-by-new-value "FAVOURITES_COUNT" favourites_count)))
+
+(defn masto->html2 [statuses]
+  (let [html (b/index-html-hiccup)]
+    (map (fn [status]
+           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count]} status]
+             (-> html
+                 (masto-header->html account created_at)
+                 (masto-content->html content)
+                 (masto-media->html media_attachments)
+                 (masto-footer->html replies_count reblogs_count favourites_count))))
+         statuses)))
 
 (defn find-account-id [host-url account-name]
   (let [out (chan)]
@@ -89,7 +111,7 @@
            (filter #(= nil (:reblog %)))
            (filter #(= nil (:in_reply_to_account_id %)))
            (take 4)
-           (masto->html)
+           (masto->html2)
            (render-html)
            (b/render-to-document)))))
 
@@ -195,3 +217,24 @@
  :visibility "public",
  :created_at "2024-05-15T17:14:50.257Z",
  :spoiler_text ""}
+
+:media_attachments
+[{:description "Plastikmüll gesammelt",
+  :meta
+  {:original
+   {:width 1500, :height 2000, :size "1500x2000", :aspect 0.75},
+   :small
+   {:width 416,
+    :height 554,
+    :size "416x554",
+    :aspect 0.7509025270758123}},
+  :type "image",
+  :blurhash "UAFiMmx^9aE1yEjEM|%N0eD%w]t7D$%NR4tR",
+  :preview_url
+  "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/small/0d01ddb07440328e.jpg",
+  :preview_remote_url nil,
+  :id "112432505467393505",
+  :url
+  "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/original/0d01ddb07440328e.jpg",
+  :remote_url nil,
+  :text_url nil}],
