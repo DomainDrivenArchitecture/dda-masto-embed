@@ -33,6 +33,7 @@
         width: auto;
         max-height: 60px;
         object-fit: contain;
+        align-self: center;
       }
   
       .mastodon-post-names {
@@ -48,16 +49,20 @@
         .display-name {
           grid-area: dp-name;
           align-self: end;
+          text-decoration: none;
+          color: inherit;
         }
       
         .account-name {
           grid-area: ac-name;
           align-self: start;
+          text-decoration: none;
+          color: inherit;
         }
       }
 
       .mastodon-post-date {
-        font-size: 0.95vw;
+        font-size: 85%;
         grid-area: date;
         justify-self: end;
         align-self: center;
@@ -191,7 +196,7 @@
   }
 
   @media screen and (max-width: 575px) {
-    font-size: 2vw;
+    font-size: 2.1vw;
   }
 
   @media screen and (min-width: 576px) {
@@ -212,6 +217,10 @@
 
   @media screen and (min-width: 1400px) {
     font-size: 1.1vw;
+  }
+
+  @media screen and (min-width: 2004px) {
+    font-size: 1vw;
   }
 
 }
