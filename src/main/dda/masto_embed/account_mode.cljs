@@ -89,6 +89,15 @@
         (assoc-in item [:content] (conj content insertion-element)))
       item)))
 
+(defn assoc-to-content [item class insertion-element]
+  (let [condition (every? true? [(map? item)
+                                 (= (:type item) :element)
+                                 (= class (:class (:attrs item)))])]
+    (if condition
+      (let [content (:content item)]
+        (assoc-in item [:content] insertion-element))
+      item)))
+
 (defn masto-media->html [html media_attachments]
   (if-let [preview-image-url (get-in media_attachments [0 :preview_url])]
       (let [class-name "mastodon-post-content"
@@ -100,7 +109,7 @@
 ;; Eventuell das Gleiche auch für masto->media->html
 (defn insert-link-prev [html]
   (let [class-name "mastodon-post-link-preview"]
-    (postwalk #(insert-into-class % class-name link_preview) html)))
+    (postwalk #(assoc-to-content % class-name link_preview) html)))
 
 (defn masto-link-prev->html [html card]
   (let [{:keys [url image title description]} card]
