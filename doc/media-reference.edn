@@ -1,0 +1,20 @@
+:media_attachments
+[{:description "Plastikmüll gesammelt",
+  :meta
+  {:original
+   {:width 1500, :height 2000, :size "1500x2000", :aspect 0.75},
+   :small
+   {:width 416,
+    :height 554,
+    :size "416x554",
+    :aspect 0.7509025270758123}},
+  :type "image",
+  :blurhash "UAFiMmx^9aE1yEjEM|%N0eD%w]t7D$%NR4tR",
+  :preview_url
+  "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/small/0d01ddb07440328e.jpg",
+  :preview_remote_url nil,
+  :id "112432505467393505",
+  :url
+  "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/original/0d01ddb07440328e.jpg",
+  :remote_url nil,
+  :text_url nil}],
