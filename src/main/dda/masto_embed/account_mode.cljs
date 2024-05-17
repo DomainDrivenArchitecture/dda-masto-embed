@@ -105,8 +105,6 @@
         (postwalk #(insert-into-class % class-name image-element) html))
       html))
 
-;; ToDo: Funktionalität aufsplitten. Ich würde zuerst das html um die link prev erweitern und dann suchen/ersetzen
-;; Eventuell das Gleiche auch für masto->media->html
 (defn insert-link-prev [html]
   (let [class-name "mastodon-post-link-preview"]
     (postwalk #(assoc-to-content % class-name link_preview) html)))
