@@ -25,6 +25,23 @@
    [dda.c4k-common.common :as cm]
    [clojure.walk :refer [postwalk]]))
 
+(def link_preview
+  {:type :element,
+   :attrs {:href "LINK_PREVIEW_URL", :class "mastodon-post-link-preview", :target "_blank"},
+   :tag :a,
+   :content
+   [{:type :element,
+     :attrs {:class "mastodon-post-link-image", :src "LINK_PREVIEW_IMG_URL"},
+     :tag :img,
+     :content nil}
+    {:type :element,
+     :attrs {:class "mastodon-post-link-info"},
+     :tag :div,
+     :content
+     [{:type :element, :attrs {:class "mastodon-post-link-title"}, :tag :h4, :content ["LINK_PREVIEW_TITLE"]}
+      {:type :element, :attrs {:class "mastodon-post-link-description"}, :tag :div, :content ["LINK_PREVIEW_DESC"]}
+      {:type :element, :attrs {:class "mastodon-post-link-url"}, :tag :div, :content ["LINK_PREVIEW_URL"]}]}]})
+
 (defn mastocard->html [card]
   (when (some? card)
     (let [{:keys [title description image url]} card]
@@ -83,14 +100,17 @@
         (postwalk #(insert-into-class % class-name image-element) html))
       html))
 
-(defn masto-link-prev->html [html card]
-  (let [{:keys [url image title description]} card]
-    (-> html 
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description)
-        )))
+;; ToDo: Funktionalität aufsplitten. Ich würde zuerst das html um die link prev erweitern und dann suchen/ersetzen
+;; Eventuell das Gleiche auch für masto->media->html
+(defn insert-link-prev->html [html card]
+  (if-let [link-preview-url (get-in card [0 :url])
+           link-preview-img-url (get-in card [0 :image])
+           link-preview-title (get-in card [0 :title])
+           link-preview-description (get-in card [0 :description])]
+    (let [class-name "mastodon-post-link-preview"]
+      (postwalk #(insert-into-class % class-name link_preview) html))
+    html))
+
 
 (defn masto-footer->html [html replies_count reblogs_count favourites_count]
   (-> html

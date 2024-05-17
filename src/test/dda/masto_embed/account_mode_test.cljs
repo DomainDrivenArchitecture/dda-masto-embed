@@ -18,7 +18,31 @@
   (:require
    [cljs.test :refer (deftest is)]
    [dda.masto-embed.account-mode :as sut]
-   [dda.masto-embed.hiccs :as hic]))
+   [dda.masto-embed.hiccs :as hic]
+   [hickory.core :as h]
+   [shadow.resource :as rc]))
+
+(def link_prev  {:card
+                {:description "forgejo - Beyond coding. We forge.",
+                 :author_url "",
+                 :image_description "",
+                 :width 290,
+                 :type "link",
+                 :embed_url "",
+                 :blurhash "URC3:FsU1xJS-8NvJ9$OFIS3wexEJ9n*xEbG",
+                 :title
+                 "forgejo/tests/integration/api_activitypub_repository_test.go at fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e",
+                 :published_at nil,
+                 :provider_name "Codeberg.org",
+                 :language "en",
+                 :url
+                 "https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go",
+                 :author_name "",
+                 :image
+                 "https://cdn.masto.host/socialmeissagmbhde/cache/preview_cards/images/000/545/643/original/199336f5aa5b9683.png",
+                 :provider_url "",
+                 :height 290,
+                 :html ""}})
 
 (def media_attachments {:media_attachments
                        [{:description "Plastikmüll gesammelt",
@@ -187,6 +211,10 @@
 (deftest test-masto-media->html
   (is (= hic/post-html
          (sut/masto-media->html hic/post-no-img-html media_attachments))))
+
+(deftest test-masto-link-prev->html
+  (is (= hic/post-html
+         (sut/masto-link-prev->html hic/post-no-link-prev-html link_prev))))
 
 (deftest empty-card-should-produce-empty-result
   (is (= nil
