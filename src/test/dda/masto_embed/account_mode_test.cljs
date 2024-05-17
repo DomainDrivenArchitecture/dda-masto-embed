@@ -18,16 +18,7 @@
   (:require
    [cljs.test :refer (deftest is)]
    [dda.masto-embed.account-mode :as sut]
-   [hickory.core :as h]
-   [shadow.resource :as rc]))
-
-(defn post-no-img-html []
-  (h/as-hiccup
-   (h/parse
-    (rc/inline "dda/masto_embed/resources/post-no-img.html"))))
-
-(defn post-html []
-  (h/as-hiccup (h/parse (rc/inline "dda/masto_embed/resources/post.html"))))
+   [dda.masto-embed.hiccs :as hic]))
 
 (def media_attachments {:media_attachments
                        [{:description "Plastikmüll gesammelt",
@@ -194,8 +185,8 @@
          (sut/masto->html statuses))))
 
 (deftest test-masto-media->html
-  (is (= (post-html)
-         (sut/masto-media->html (post-no-img-html) media_attachments))))
+  (is (= hic/post-html
+         (sut/masto-media->html hic/post-no-img-html media_attachments))))
 
 (deftest empty-card-should-produce-empty-result
   (is (= nil
