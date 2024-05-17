@@ -23,3 +23,5 @@ package-lock.json
 /.clj-kondo/
 
 *.pyc
+t2
+t1
