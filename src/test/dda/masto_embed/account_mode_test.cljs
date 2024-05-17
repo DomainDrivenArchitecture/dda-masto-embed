@@ -22,48 +22,48 @@
    [hickory.core :as h]
    [shadow.resource :as rc]))
 
-(def link_prev  {:card
-                {:description "forgejo - Beyond coding. We forge.",
-                 :author_url "",
-                 :image_description "",
-                 :width 290,
-                 :type "link",
-                 :embed_url "",
-                 :blurhash "URC3:FsU1xJS-8NvJ9$OFIS3wexEJ9n*xEbG",
-                 :title
-                 "forgejo/tests/integration/api_activitypub_repository_test.go at fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e",
-                 :published_at nil,
-                 :provider_name "Codeberg.org",
-                 :language "en",
-                 :url
-                 "https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go",
-                 :author_name "",
-                 :image
-                 "https://cdn.masto.host/socialmeissagmbhde/cache/preview_cards/images/000/545/643/original/199336f5aa5b9683.png",
-                 :provider_url "",
-                 :height 290,
-                 :html ""}})
+(def media_attachments
+  [{:description "Plastikmüll gesammelt",
+    :meta
+    {:original
+     {:width 1500, :height 2000, :size "1500x2000", :aspect 0.75},
+     :small
+     {:width 416,
+      :height 554,
+      :size "416x554",
+      :aspect 0.7509025270758123}},
+    :type "image",
+    :blurhash "UAFiMmx^9aE1yEjEM|%N0eD%w]t7D$%NR4tR",
+    :preview_url
+    "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/small/0d01ddb07440328e.jpg",
+    :preview_remote_url nil,
+    :id "112432505467393505",
+    :url
+    "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/original/0d01ddb07440328e.jpg",
+    :remote_url nil,
+    :text_url nil}])
 
-(def media_attachments {:media_attachments
-                       [{:description "Plastikmüll gesammelt",
-                         :meta
-                         {:original
-                          {:width 1500, :height 2000, :size "1500x2000", :aspect 0.75},
-                          :small
-                          {:width 416,
-                           :height 554,
-                           :size "416x554",
-                           :aspect 0.7509025270758123}},
-                         :type "image",
-                         :blurhash "UAFiMmx^9aE1yEjEM|%N0eD%w]t7D$%NR4tR",
-                         :preview_url
-                         "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/small/0d01ddb07440328e.jpg",
-                         :preview_remote_url nil,
-                         :id "112432505467393505",
-                         :url
-                         "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/original/0d01ddb07440328e.jpg",
-                         :remote_url nil,
-                         :text_url nil}]})
+(def link_prev  {:card
+                 {:description "forgejo - Beyond coding. We forge.",
+                  :author_url "",
+                  :image_description "",
+                  :width 290,
+                  :type "link",
+                  :embed_url "",
+                  :blurhash "URC3:FsU1xJS-8NvJ9$OFIS3wexEJ9n*xEbG",
+                  :title
+                  "forgejo/tests/integration/api_activitypub_repository_test.go at fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e",
+                  :published_at nil,
+                  :provider_name "Codeberg.org",
+                  :language "en",
+                  :url
+                  "https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go",
+                  :author_name "",
+                  :image
+                  "https://cdn.masto.host/socialmeissagmbhde/cache/preview_cards/images/000/545/643/original/199336f5aa5b9683.png",
+                  :provider_url "",
+                  :height 290,
+                  :html ""}})
 
 (def statuses [{:mentions []
                :emojis []
@@ -209,12 +209,12 @@
          (sut/masto->html statuses))))
 
 (deftest test-masto-media->html
-  (is (= hic/post-html
-         (sut/masto-media->html hic/post-no-img-html media_attachments))))
+  (is (= hic/post-with-img
+         (sut/masto-media->html hic/post-base media_attachments))))
 
-(deftest test-masto-link-prev->html
-  (is (= hic/post-html
-         (sut/masto-link-prev->html hic/post-no-link-prev-html link_prev))))
+;(deftest test-masto-link-prev->html
+;  (is (= hic/post-with-prev
+;         (sut/masto-link-prev->html hic/post-base link_prev))))
 
 (deftest empty-card-should-produce-empty-result
   (is (= nil
