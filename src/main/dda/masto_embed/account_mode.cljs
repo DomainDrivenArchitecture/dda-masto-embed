@@ -94,8 +94,7 @@
                                  (= (:type item) :element)
                                  (= class (:class (:attrs item)))])]
     (if condition
-      (let [content (:content item)]
-        (assoc-in item [:content] insertion-element))
+        (assoc-in item [:content] insertion-element)
       item)))
 
 (defn masto-media->html [html media_attachments]
