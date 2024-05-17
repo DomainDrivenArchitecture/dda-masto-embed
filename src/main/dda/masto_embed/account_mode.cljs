@@ -102,15 +102,17 @@
 
 ;; ToDo: Funktionalität aufsplitten. Ich würde zuerst das html um die link prev erweitern und dann suchen/ersetzen
 ;; Eventuell das Gleiche auch für masto->media->html
-(defn insert-link-prev->html [html card]
-  (if-let [link-preview-url (get-in card [0 :url])
-           link-preview-img-url (get-in card [0 :image])
-           link-preview-title (get-in card [0 :title])
-           link-preview-description (get-in card [0 :description])]
-    (let [class-name "mastodon-post-link-preview"]
-      (postwalk #(insert-into-class % class-name link_preview) html))
-    html))
+(defn insert-link-prev [html]
+  (let [class-name "mastodon-post-link-preview"]
+    (postwalk #(insert-into-class % class-name link_preview) html)))
 
+(defn masto-link-prev->html [html card]
+  (let [{:keys [url image title description]} card]
+    (-> (insert-link-prev html)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
+        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description))))
 
 (defn masto-footer->html [html replies_count reblogs_count favourites_count]
   (-> html
