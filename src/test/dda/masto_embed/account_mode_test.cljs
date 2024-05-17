@@ -17,7 +17,38 @@
 (ns dda.masto-embed.account-mode-test
   (:require
    [cljs.test :refer (deftest is)]
-   [dda.masto-embed.account-mode :as sut]))
+   [dda.masto-embed.account-mode :as sut]
+   [hickory.core :as h]
+   [shadow.resource :as rc]))
+
+(defn post-no-img-html []
+  (h/as-hiccup
+   (h/parse
+    (rc/inline "dda/masto_embed/resources/post-no-img.html"))))
+
+(defn post-html []
+  (h/as-hiccup (h/parse (rc/inline "dda/masto_embed/resources/post.html"))))
+
+(def media_attachments {:media_attachments
+                       [{:description "Plastikmüll gesammelt",
+                         :meta
+                         {:original
+                          {:width 1500, :height 2000, :size "1500x2000", :aspect 0.75},
+                          :small
+                          {:width 416,
+                           :height 554,
+                           :size "416x554",
+                           :aspect 0.7509025270758123}},
+                         :type "image",
+                         :blurhash "UAFiMmx^9aE1yEjEM|%N0eD%w]t7D$%NR4tR",
+                         :preview_url
+                         "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/small/0d01ddb07440328e.jpg",
+                         :preview_remote_url nil,
+                         :id "112432505467393505",
+                         :url
+                         "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/original/0d01ddb07440328e.jpg",
+                         :remote_url nil,
+                         :text_url nil}]})
 
 (def statuses [{:mentions []
                :emojis []
@@ -162,7 +193,9 @@
                nil]]])]
          (sut/masto->html statuses))))
 
-
+(deftest test-masto-media->html
+  (is (= (post-html)
+         (sut/masto-media->html (post-no-img-html) media_attachments))))
 
 (deftest empty-card-should-produce-empty-result
   (is (= nil
