@@ -217,6 +217,10 @@
   (is (= hic/post-with-prev
          (sut/insert-link-prev hic/post-base-prev))))
 
+(deftest test-masto-link-prev->html
+  (is (= hic/filled-post-with-prev
+         (sut/masto-link-prev->html hic/post-base-prev link_prev))))
+
 (deftest empty-card-should-produce-empty-result
   (is (= nil
          (sut/mastocard->html nil))))

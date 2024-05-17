@@ -238,6 +238,64 @@
              :tag :a,
              :content nil}]}]}]}]}]})
 
+(def filled-post-with-prev
+  {:type :document,
+   :content
+   [{:type :element,
+     :attrs nil,
+     :tag :html,
+     :content
+     [{:type :element, :attrs nil, :tag :head, :content nil}
+      {:type :element,
+       :attrs nil,
+       :tag :body,
+       :content
+       [{:type :element,
+         :attrs {:class "section post-container"},
+         :tag :section,
+         :content
+         [{:type :element,
+           :attrs {:class "mastodon-post"},
+           :tag :article,
+           :content
+           [{:type :element,
+             :attrs {:class "mastodon-post-header"},
+             :tag :header,
+             :content
+             [{:type :element, :attrs {:class "mastodon-post-avatar", :src "AVATAR_URL"}, :tag :img, :content nil}
+              {:type :element,
+               :attrs {:class "mastodon-post-names"},
+               :tag :div,
+               :content
+               [{:type :element, :attrs {:class "display-name", :href "POST_URL"}, :tag :a, :content ["DISPLAY_NAME"]}
+                {:type :element, :attrs {:class "account-name", :href "POST_URL"}, :tag :a, :content ["ACCOUNT_NAME"]}]}
+              {:type :element,
+               :attrs {:class "mastodon-post-date", :datetime "DATETIME"},
+               :tag :time,
+               :content ["TIME"]}]}
+            {:type :element,
+             :attrs {:class "mastodon-post-content"},
+             :tag :section,
+             :content [{:type :element, :attrs {:class "mastodon-post-text"}, :tag :p, :content ["POST_TEXT"]}]}
+            {:type :element,
+             :attrs {:href "https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go", :class "mastodon-post-link-preview", :target "_blank"},
+             :tag :a,
+             :content
+             [{:type :element,
+               :attrs {:class "mastodon-post-link-image", :src "https://cdn.masto.host/socialmeissagmbhde/cache/preview_cards/images/000/545/643/original/199336f5aa5b9683.png"},
+               :tag :img,
+               :content nil}
+              {:type :element,
+               :attrs {:class "mastodon-post-link-info"},
+               :tag :div,
+               :content
+               [{:type :element, :attrs {:class "mastodon-post-link-title"}, :tag :h4, :content ["forgejo/tests/integration/api_activitypub_repository_test.go at fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e"]}
+                {:type :element,
+                 :attrs {:class "mastodon-post-link-description"},
+                 :tag :div,
+                 :content ["forgejo - Beyond coding. We forge."]}
+                {:type :element, :attrs {:class "mastodon-post-link-url"}, :tag :div, :content ["https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go"]}]}]}]}]}]}]}]})
+
 (def post-with-prev
   {:type :document,
    :content
