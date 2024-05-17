@@ -26,21 +26,17 @@
    [clojure.walk :refer [postwalk]]))
 
 (def link_preview
-  {:type :element,
-   :attrs {:href "LINK_PREVIEW_URL", :class "mastodon-post-link-preview", :target "_blank"},
-   :tag :a,
-   :content
-   [{:type :element,
-     :attrs {:class "mastodon-post-link-image", :src "LINK_PREVIEW_IMG_URL"},
-     :tag :img,
-     :content nil}
-    {:type :element,
-     :attrs {:class "mastodon-post-link-info"},
-     :tag :div,
-     :content
-     [{:type :element, :attrs {:class "mastodon-post-link-title"}, :tag :h4, :content ["LINK_PREVIEW_TITLE"]}
-      {:type :element, :attrs {:class "mastodon-post-link-description"}, :tag :div, :content ["LINK_PREVIEW_DESC"]}
-      {:type :element, :attrs {:class "mastodon-post-link-url"}, :tag :div, :content ["LINK_PREVIEW_URL"]}]}]})
+  [{:type :element,
+    :attrs {:class "mastodon-post-link-image", :src "LINK_PREVIEW_IMG_URL"},
+    :tag :img,
+    :content nil}
+   {:type :element,
+    :attrs {:class "mastodon-post-link-info"},
+    :tag :div,
+    :content
+    [{:type :element, :attrs {:class "mastodon-post-link-title"}, :tag :h4, :content ["LINK_PREVIEW_TITLE"]}
+     {:type :element, :attrs {:class "mastodon-post-link-description"}, :tag :div, :content ["LINK_PREVIEW_DESC"]}
+     {:type :element, :attrs {:class "mastodon-post-link-url"}, :tag :div, :content ["LINK_PREVIEW_URL"]}]}])
 
 (defn mastocard->html [card]
   (when (some? card)
