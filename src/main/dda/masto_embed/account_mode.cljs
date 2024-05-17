@@ -15,7 +15,7 @@
 ; limitations under the License.
 (ns dda.masto-embed.account-mode
   (:require
-   [cljs.core.async :refer [go close! put! take! timeout chan <! >!]]
+   [cljs.core.async :refer [go chan <! >!]]
    [cljs.core.async.interop :refer-macros [<p!]]
    [hiccups.runtime :refer [render-html]]
    [cljs-time.format :as t]
@@ -121,8 +121,6 @@
            (map :id)
            first)))
     out))
-
-; (infra/debug)
 
 (defn account-mode [host-url account-name]
   (go
