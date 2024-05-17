@@ -79,7 +79,7 @@
 (defn masto-media->html [html media_attachments]
   (if-let [preview-image-url (get-in media_attachments [0 :preview_url])]
       (let [class-name "mastodon-post-content"
-            image-element {:type :element, :attrs {:class "mastodon-post-image", :src nil}, :tag :img, :content preview-image-url}]
+            image-element {:type :element, :attrs {:class "mastodon-post-image", :src preview-image-url}, :tag :img, :content nil}]
         (postwalk #(insert-into-class % class-name image-element) html))
       html))
 
