@@ -87,7 +87,7 @@
 (defn insert-into-class [item class insertion-element]
   (let [condition (every? true? [(map? item) 
                                  (= (:type item) :element) 
-                                 (= (:attrs item) {:class class})])]
+                                 (= class (:class (:attrs item)))])]
     (if condition 
       (let [content (:content item)]
         (assoc-in item [:content] (conj content insertion-element)))
