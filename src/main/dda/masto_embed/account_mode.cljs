@@ -23,7 +23,7 @@
    [dda.masto-embed.infra :as infra]
    [dda.masto-embed.browser :as b]
    [dda.c4k-common.common :as cm]
-   ))
+   [clojure.walk :refer [postwalk]]))
 
 (defn mastocard->html [card]
   (when (some? card)
@@ -66,10 +66,22 @@
     (-> html
         (cm/replace-all-matching-values-by-new-value "POST_TEXT" content)))
 
+; Meant to be used in postwalk on hiccup/hickory html-representation
+(defn insert-into-class [item class insertion-element]
+  (let [condition (every? true? [(map? item) 
+                                 (= (:type item) :element) 
+                                 (= (:attrs item) {:class class})])]
+    (if condition 
+      (let [content (:content item)]
+        (assoc-in item [:content] (conj content insertion-element)))
+      item)))
+
 (defn masto-media->html [html media_attachments]
-  (let [{:keys [media]} media_attachments]
-    (-> html
-        (cm/replace-all-matching-values-by-new-value "POST_IMG_URL" media))))
+  (if-let [preview-image-url (get-in media_attachments [0 :preview_url])]
+      (let [class-name "mastodon-post-content"
+            image-element {:type :element, :attrs {:class "mastodon-post-image", :src nil}, :tag :img, :content preview-image-url}]
+        (postwalk #(insert-into-class % class-name image-element) html))
+      html))
 
 (defn masto-link-prev->html [html card]
   (let [{:keys [url image title description]} card]
