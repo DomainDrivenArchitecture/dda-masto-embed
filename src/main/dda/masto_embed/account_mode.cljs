@@ -38,31 +38,6 @@
      {:type :element, :attrs {:class "mastodon-post-link-description"}, :tag :div, :content ["LINK_PREVIEW_DESC"]}
      {:type :element, :attrs {:class "mastodon-post-link-url"}, :tag :div, :content ["LINK_PREVIEW_URL"]}]}])
 
-(defn mastocard->html [card]
-  (when (some? card)
-    (let [{:keys [title description image url]} card]
-      [:div {:class "card" :url url}
-       (when (some? image)
-         [:img {:class "card-img-top" :src image}])
-       [:h3 {:class "card-title"} title]
-       [:p {:class "card-body"} description]])))
-
-(defn masto->html [statuses]
-  [:ul {:class "list-group"}
-   (map (fn [status]
-          (let [{:keys [created_at card]} status
-                date (t/parse created_at)]
-            [:li {:class "list-group-item, card"}
-             [:div {:class "card-body"}
-              [:h2 {:class "card-title"}
-               [:a {:href (get-in status [:url])}
-                (t/unparse (t/formatters :date) date) " "
-                (t/unparse (t/formatters :hour-minute-second) date)]]
-              [:p {:class "card-text"}
-               (:content status)
-               (mastocard->html card)]]]))
-        statuses)])
-
 (defn masto-header->html [html account created_at url]
   (let [{:keys [username display_name avatar_static]} account
         date (t/parse created_at)]
@@ -122,7 +97,7 @@
       (cm/replace-all-matching-values-by-new-value "REBLOGS_COUNT" reblogs_count)
       (cm/replace-all-matching-values-by-new-value "FAVOURITES_COUNT" favourites_count)))
 
-(defn masto->html2 [statuses]
+(defn masto->html [statuses]
   (let [html (b/post-html-hiccup)]
     (map (fn [status]
            (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
@@ -149,14 +124,14 @@
 (defn account-mode [host-url account-name]
   (go
     (let [account-id (<! (find-account-id host-url account-name))
-          statuus (->
+          status (->
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)]
-      (->> statuus
+      (->> status
            (filter #(= nil (:reblog %)))
            (filter #(= nil (:in_reply_to_account_id %)))
            (take 4)
-           (masto->html2)
+           (masto->html)
            (render-html)
            (b/render-to-document)))))
 
@@ -164,10 +139,10 @@
 (defn account-mode-debug [host-url account-name]
   (go
     (let [account-id (<! (find-account-id host-url account-name))
-          statuus (->
+          status (->
                    (<p! (api/get-account-statuses host-url account-id))
                    api/mastojs->edn)]
-      (->> statuus
+      (->> status
            (filter #(= nil (:reblog %)))
            (filter #(= nil (:in_reply_to_account_id %)))
            (take 1)

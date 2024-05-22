@@ -20,6 +20,7 @@
    [dda.masto-embed.account-mode :as sut]
    [dda.masto-embed.hiccs :as hic]
    [hickory.core :as h]
+   [hickory.convert :as hc]
    [shadow.resource :as rc]))
 
 (def media_attachments
@@ -200,14 +201,15 @@
     :created_at "2020-05-17T10:12:10.403Z"
     :spoiler_text ""}])
 
-(deftest test-mastodon->html 
-  (is (= [:ul {:class "list-group"}
-          '([:li {:class "list-group-item, card"}
-             [:div {:class "card-body"}
-              [:h2 {:class "card-title"} [:a {:href "https://social.meissa-gmbh.de/users/team/statuses/104183256213204298/activity"} "2020-05-17" " " "10:12:10"]]
-              [:p {:class "card-text"} "<p>We&apos;ve a new asciicast ... </p>"
-               nil]]])]
-         (sut/masto->html statuses))))
+; TODO: Replace this test
+;(deftest test-mastodon->html 
+;  (is (= [:ul {:class "list-group"}
+;          '([:li {:class "list-group-item, card"}
+;             [:div {:class "card-body"}
+;              [:h2 {:class "card-title"} [:a {:href "https://social.meissa-gmbh.de/users/team/statuses/104183256213204298/activity"} "2020-05-17" " " "10:12:10"]]
+;              [:p {:class "card-text"} "<p>We&apos;ve a new asciicast ... </p>"
+;               nil]]])]
+;         (sut/masto->html statuses))))
 
 (deftest test-masto-media->html
   (is (= hic/post-with-img
@@ -221,32 +223,3 @@
   (is (= hic/filled-post-with-prev
          (sut/masto-link-prev->html hic/post-base-prev link_prev))))
 
-(deftest empty-card-should-produce-empty-result
-  (is (= nil
-         (sut/mastocard->html nil))))
-
-(def link-card {:description "A comprehensive free SSL test for your public web servers.", 
-                :author_url "", :width 0, :type "link", :embed_url "", 
-                :title "SSL Server Test (Powered by Qualys SSL Labs)", 
-                :provider_name "", :url "https://www.ssllabs.com/ssltest/", 
-                :author_name "", :image nil, :provider_url "", :height 0, :html ""})
-
-(deftest link-card-should-show-desc-and-link
-  (is (= [:div {:class "card", :url "https://www.ssllabs.com/ssltest/"} nil 
-          [:h3 {:class "card-title"} "SSL Server Test (Powered by Qualys SSL Labs)"] 
-          [:p {:class "card-body"} "A comprehensive free SSL test for your public web servers."]]
-         (sut/mastocard->html link-card))))
-
-(def link-card-with-image 
-  {:description "Cryogen's core. Contribute to DomainDrivenArchitecture/cryogen-core development by creating an account on GitHub.", :author_url "", :width 400, :type "link", :embed_url "", 
-   :title "DomainDrivenArchitecture/cryogen-core", :provider_name "", 
-   :url "https://github.com/DomainDrivenArchitecture/cryogen-core", :author_name "", 
-   :image "https://cf.mastohost.com/v1/AUTH_91eb37814936490c95da7b85993cc2ff/socialmeissagmbhde/cache/preview_cards/images/000/017/635/original/5634071238f1f91f.png", 
-   :provider_url "", :height 400, :html ""})
-
-(deftest link-card-should-show-image-and-desc-and-link
-  (is (= [:div {:class "card", :url "https://github.com/DomainDrivenArchitecture/cryogen-core"} 
-          [:img {:class "card-img-top", :src "https://cf.mastohost.com/v1/AUTH_91eb37814936490c95da7b85993cc2ff/socialmeissagmbhde/cache/preview_cards/images/000/017/635/original/5634071238f1f91f.png"}] 
-          [:h3 {:class "card-title"} "DomainDrivenArchitecture/cryogen-core"] 
-          [:p {:class "card-body"} "Cryogen's core. Contribute to DomainDrivenArchitecture/cryogen-core development by creating an account on GitHub."]]
-         (sut/mastocard->html link-card-with-image))))
