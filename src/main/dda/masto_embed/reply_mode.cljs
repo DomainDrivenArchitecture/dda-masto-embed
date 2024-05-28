@@ -24,7 +24,7 @@
    [dda.masto-embed.browser :as b]
    [dda.masto-embed.account-mode :as am]
    ))
-
+; ToDo: Possibility to present replies to more than one post
 (defn mastocard->html [card media]
   (when (some? card)
     (let [{:keys [title description image url]} card
