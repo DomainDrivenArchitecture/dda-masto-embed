@@ -26,17 +26,16 @@
    [clojure.walk :refer [postwalk]]))
 
 (def link_preview
-  [{:type :element,
-    :attrs {:class "mastodon-post-link-image", :src "LINK_PREVIEW_IMG_URL"},
-    :tag :img,
-    :content nil}
-   {:type :element,
-    :attrs {:class "mastodon-post-link-info"},
-    :tag :div,
-    :content
-    [{:type :element, :attrs {:class "mastodon-post-link-title"}, :tag :h4, :content ["LINK_PREVIEW_TITLE"]}
-     {:type :element, :attrs {:class "mastodon-post-link-description"}, :tag :div, :content ["LINK_PREVIEW_DESC"]}
-     {:type :element, :attrs {:class "mastodon-post-link-url"}, :tag :div, :content ["LINK_PREVIEW_URL"]}]}])
+  [:a
+   {:href "LINK_PREVIEW_URL", :class "mastodon-post-link-preview", :target "_blank"}
+   [:img {:class "mastodon-post-link-image", :src "LINK_PREVIEW_IMG_URL"}]
+   [:div
+    {:class "mastodon-post-link-info"}
+    [:h4 {:class "mastodon-post-link-title"} "LINK_PREVIEW_TITLE"]
+    [:div {:class "mastodon-post-link-description"} "LINK_PREVIEW_DESC"]
+    [:div {:class "mastodon-post-link-url"} "LINK_PREVIEW_URL"]]])
+
+(defn insert [v i e] (vec (concat (subvec v 0 i) [e] (subvec v i))))
 
 (defn masto-header->html [html account created_at url]
   (let [{:keys [username display_name avatar_static]} account
@@ -55,37 +54,37 @@
         (cm/replace-all-matching-values-by-new-value "POST_TEXT" content)))
 
 ; Meant to be used in postwalk on hiccup/hickory html-representation
-(defn insert-into-class [item class insertion-element]
-  (let [condition (every? true? [(map? item) 
-                                 (= (:type item) :element) 
-                                 (= class (:class (:attrs item)))])]
-    (if condition 
-      (let [content (:content item)]
-        (assoc-in item [:content] (conj content insertion-element)))
+(defn insert-into-content [item insertion-element]
+  (let [condition (if (vector? item)
+                    (every? true? [(= (first item) :section)
+                                  (= (:class (second item)) "mastodon-post-content")])
+                    false)]
+    (if condition       
+        (conj item insertion-element)
       item)))
 
-(defn assoc-to-content [item class insertion-element]
-  (let [condition (every? true? [(map? item)
-                                 (= (:type item) :element)
-                                 (= class (:class (:attrs item)))])]
+(defn insert-into-post [item index insertion-element]
+  (let [condition (if (vector? item)
+                    (every? true? [(= (first item) :section)
+                                   (= (:class (second item)) "mastodon-post-content")])
+                    false)]
     (if condition
-        (assoc-in item [:content] insertion-element)
+        (insert item index insertion-element)
       item)))
 
 (defn masto-media->html [html media_attachments]
   (if-let [preview-image-url (get-in media_attachments [0 :preview_url])]
-      (let [class-name "mastodon-post-content"
-            image-element {:type :element, :attrs {:class "mastodon-post-image", :src preview-image-url}, :tag :img, :content nil}]
-        (postwalk #(insert-into-class % class-name image-element) html))
+      (let [image-element [:img {:class "mastodon-post-image", :src preview-image-url}]]
+        (postwalk #(insert-into-content % image-element) html))
       html))
 
 (defn insert-link-prev [html]
-  (let [class-name "mastodon-post-link-preview"]
-    (postwalk #(assoc-to-content % class-name link_preview) html)))
+  (postwalk #(insert-into-post % 3 link_preview) html))
 
 (defn masto-link-prev->html [html card]
   (let [{:keys [url image title description]} card]
-    (-> (insert-link-prev html)
+    (-> html
+        (insert-link-prev)
         (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
         (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
         (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
