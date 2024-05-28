@@ -65,8 +65,8 @@
 
 (defn insert-into-post [item index insertion-element]
   (let [condition (if (vector? item)
-                    (every? true? [(= (first item) :section)
-                                   (= (:class (second item)) "mastodon-post-content")])
+                    (every? true? [(= (first item) :article)
+                                   (= (:class (second item)) "mastodon-post")])
                     false)]
     (if condition
         (insert item index insertion-element)
@@ -79,7 +79,7 @@
       html))
 
 (defn insert-link-prev [html]
-  (postwalk #(insert-into-post % 3 link_preview) html))
+  (postwalk #(insert-into-post % 4 link_preview) html))
 
 (defn masto-link-prev->html [html card]
   (let [{:keys [url image title description]} card]

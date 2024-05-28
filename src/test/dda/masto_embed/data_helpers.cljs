@@ -127,7 +127,9 @@
       [:section
        {:class "mastodon-post-content"}
        [:p {:class "mastodon-post-text"} "POST_TEXT"]
-       [:img {:class "mastodon-post-image", :src "POST_IMG_URL"}]]
+       [:img 
+        {:class "mastodon-post-image", 
+         :src "https://cdn.masto.host/socialmeissagmbhde/media_attachments/files/112/432/505/467/393/505/small/0d01ddb07440328e.jpg"}]]
       [:footer
        {:class "mastodon-post-footer"}
        [:button
