@@ -22,7 +22,7 @@
    [dda.masto-embed.api :as api]
    [dda.masto-embed.infra :as infra]
    [dda.masto-embed.browser :as b]
-   [dda.masto-embed.account-mode :as am]
+   [dda.masto-embed.to-html :as th]
    ))
 ; ToDo: Possibility to present replies to more than one post
 (defn mastocard->html [card media]

@@ -13,7 +13,7 @@
 ; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
-(ns dda.masto-embed.account-mode
+(ns dda.masto-embed.to-html
   (:require
    [cljs.core.async :refer [go chan <! >!]]
    [cljs.core.async.interop :refer-macros [<p!]]
@@ -120,7 +120,7 @@
            first)))
     out))
 
-(defn account-mode [host-url account-name]
+(defn to-html [host-url account-name]
   (go
     (let [account-id (<! (find-account-id host-url account-name))
           status (->

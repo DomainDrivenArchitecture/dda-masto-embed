@@ -14,10 +14,10 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns dda.masto-embed.account-mode-test
+(ns dda.masto-embed.to-html-test
   (:require
    [cljs.test :refer (deftest is)]
-   [dda.masto-embed.account-mode :as sut]
+   [dda.masto-embed.to-html :as sut]
    [dda.masto-embed.data-helpers :as dh]
    [hickory.core :as h]
    [hickory.convert :as hc]
