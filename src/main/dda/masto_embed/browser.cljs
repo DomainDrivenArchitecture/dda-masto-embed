@@ -25,7 +25,6 @@
 (defn post-html-hiccup []
   (h/as-hiccup (h/parse post-html)))
 
-(defn remove-image-elem [])
 
 (defn element-from-document-by-name [name]
   (-> js/document
