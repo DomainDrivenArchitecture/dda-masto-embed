@@ -18,7 +18,7 @@
   (:require
    [cljs.test :refer (deftest is)]
    [dda.masto-embed.account-mode :as sut]
-   [dda.masto-embed.hiccs :as hic]
+   [dda.masto-embed.data-helpers :as dh]
    [hickory.core :as h]
    [hickory.convert :as hc]
    [shadow.resource :as rc]))
@@ -77,14 +77,14 @@
 ;         (sut/masto->html statuses))))
 
 (deftest test-masto-media->html
-  (is (= hic/post-with-img
-         (sut/masto-media->html hic/post-base-img media_attachments))))
+  (is (= dh/post-with-img
+         (sut/masto-media->html dh/post-base-img media_attachments))))
 
 (deftest test-insert-link-prev
-  (is (= hic/post-with-prev
-         (sut/insert-link-prev hic/post-base-prev))))
+  (is (= dh/post-with-prev
+         (sut/insert-link-prev dh/post-base-prev))))
 
 (deftest test-masto-link-prev->html
-  (is (= hic/filled-post-with-prev
-         (sut/masto-link-prev->html hic/post-base-prev link_prev))))
+  (is (= dh/filled-post-with-prev
+         (sut/masto-link-prev->html dh/post-base-prev link_prev))))
 

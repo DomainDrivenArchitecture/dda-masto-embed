@@ -1,4 +1,4 @@
-(ns dda.masto-embed.hiccs)
+(ns dda.masto-embed.data-helpers)
 
 (def post-base-img
   {:type :document,
