@@ -37,6 +37,8 @@
 
 (defn insert [v i e] (vec (concat (subvec v 0 i) [e] (subvec v i))))
 
+(defn truncate  [s n] (subs s 0 (min (count s) n)))
+
 (defn masto-header->html [html account created_at url]
   (let [{:keys [username display_name avatar_static]} account
         date (t/parse created_at)]
@@ -88,7 +90,7 @@
           (insert-link-prev)
           (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
           (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
-          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
+          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" (str (truncate title 47) "..."))
           (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description)))))
 
 (defn masto-footer->html [html replies_count reblogs_count favourites_count]

@@ -288,7 +288,7 @@
        [:img {:class "mastodon-post-link-image", :src "https://cdn.masto.host/socialmeissagmbhde/cache/preview_cards/images/000/545/643/original/199336f5aa5b9683.png"}]
        [:div
         {:class "mastodon-post-link-info"}
-        [:h4 {:class "mastodon-post-link-title"} "forgejo/tests/integration/api_activitypub_repository_test.go at fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e"]
+        [:h4 {:class "mastodon-post-link-title"} "forgejo/tests/integration/api_activitypub_repos..."]
         [:div {:class "mastodon-post-link-description"} "forgejo - Beyond coding. We forge."]
         [:div {:class "mastodon-post-link-url"} "https://codeberg.org//forgejo/forgejo/src/commit/fe3473fc8b7b51e024b1a564fc7f01e385ebfb5e/tests/integration/api_activitypub_repository_test.go"]]]
       [:footer
