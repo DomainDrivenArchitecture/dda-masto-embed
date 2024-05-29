@@ -5,16 +5,21 @@
 
 ## In brief
 
-dda-masto-embed embedd either your timeline or answers to an specific post on your website.
+dda-masto-embed embedd either your timeline or answers to a specific post on your website.
 * Uses JS, **no intermediate server** required,
 * in answer mode you can decide to show only favorited answers in order to do upfront moderation
-* example for embedding a timeline at [meissa-gmbh.de/news](https://meissa-gmbh.de/pages/news/)
-* example for embedding answers to a specific post at [meissa-gmbh.de/sustainibility_microplastic](https://meissa-gmbh.de/pages/about_meissa/gemeinwohl/sustainability_microplastic/)
+* example for embedding a timeline at [meissa.de/news](https://meissa.de/news/)
+* example for embedding answers to a specific post at [meissa.de/sustainibility_microplastic](https://meissa.de/about-meissa/03plastik-aktion/)
 * Download latest version at:
   * [dda-masto-embed.js](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js)
   * [dda-masto-embed.js.sha256](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha256)
   * [dda-masto-embed.js.sha512](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha512)
 * It is **OpenSource** - published under the Apache License, Version 2.0
+
+### css and html as base
+
+Uses a generalized HTML structure with descriptive classes and css grid for styling.
+Re-styling your timeline should now be a breeze.
 
 ## Development & mirrors
 Development happens at: https://repo.prod.meissa.de/meissa/dda-masto-embed
@@ -23,9 +28,6 @@ Mirrors are:
 * https://codeberg.org/meissa/dda-masto-embed (issues and PR)
 * https://gitlab.com/domaindrivenarchitecture/dda-masto-embed (CI)
 * https://github.com/DomainDrivenArchitecture/dda-masto-embed
-
-## How it looks
-![masto-embed-example.png](doc/masto-embed-example.png)
 
 ## Include a timeline
 
