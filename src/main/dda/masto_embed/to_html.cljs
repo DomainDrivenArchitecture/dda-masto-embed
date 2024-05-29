@@ -83,12 +83,14 @@
 
 (defn masto-link-prev->html [html card]
   (let [{:keys [url image title description]} card]
-    (-> html
-        (insert-link-prev)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
-        (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description))))
+    (if (nil? card)
+      html
+      (-> html
+          (insert-link-prev)
+          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
+          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
+          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" title)
+          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description)))))
 
 (defn masto-footer->html [html replies_count reblogs_count favourites_count]
   (-> html
@@ -99,7 +101,8 @@
 (defn masto->html [statuses]
   (let [html (b/post-html-hiccup)]
     (map (fn [status]
-           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
+           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status
+                 abc (js/console.log "CARD: " card)]
              (-> html
                  (masto-header->html account created_at url)
                  (masto-content->html content)
