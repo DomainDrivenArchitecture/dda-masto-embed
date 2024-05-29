@@ -98,14 +98,19 @@
       (cm/replace-all-matching-values-by-new-value "REBLOGS_COUNT" reblogs_count)
       (cm/replace-all-matching-values-by-new-value "FAVOURITES_COUNT" favourites_count)))
 
-(defn masto->html [statuses]
+(defn insert-mode [html mode]
+  (-> html
+      (cm/replace-all-matching-values-by-new-value "section MODE" (str "section " mode))))
+
+(defn masto->html [mode statuses]
   (let [html (b/post-html-hiccup)]
     (map (fn [status]
            (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
-             (-> html
+             (-> html                 
                  (masto-header->html account created_at url)
                  (masto-content->html content)
                  (masto-media->html media_attachments)
                  (masto-link-prev->html card)
-                 (masto-footer->html replies_count reblogs_count favourites_count))))
+                 (masto-footer->html replies_count reblogs_count favourites_count)
+                 (insert-mode mode))))
          statuses)))

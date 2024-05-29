@@ -75,7 +75,7 @@
            (filter #(or (not filter-favorited) (:favorited %)))
            (reverse)
            (map :status)
-           (th/masto->html)
+           (th/masto->html "replies-mode")
            (render-html)
            (b/render-to-document)))))
 
@@ -89,6 +89,6 @@
            (filter #(= nil (:reblog %)))
            (filter #(= nil (:in_reply_to_account_id %)))
            (take 4)
-           (th/masto->html)
+           (th/masto->html "account-mode")
            (render-html)
            (b/render-to-document)))))
