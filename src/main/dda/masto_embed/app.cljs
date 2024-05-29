@@ -16,8 +16,7 @@
 (ns dda.masto-embed.app
   (:require
    [dda.masto-embed.browser :as b]
-   [dda.masto-embed.reply-mode :as rm]
-   [dda.masto-embed.to-html :as am]))
+   [dda.masto-embed.modes :as m]))
 
 (defn init []
   (let [host-url (b/host-url-from-document)
@@ -25,5 +24,5 @@
         replies-to (b/replies-to-from-document)
         filter-favorited (b/filter-favorited-from-document)]
     (if (nil? replies-to)
-      (am/to-html host-url account-name)
-      (rm/replies-mode host-url account-name replies-to filter-favorited))))
+      (m/account-mode host-url account-name)
+      (m/replies-mode host-url account-name replies-to filter-favorited))))

@@ -76,7 +76,7 @@ Including replies of one of your posts will work as follows:
   <body>
     <div id="masto-embed" 
           account_name="team"
-          replies_to="107937234506182462"
+          replies_to="112432461907918517"
           filter_favorited=false
           host_url="https://social.meissa-gmbh.de">
       Here the timeline will appear.

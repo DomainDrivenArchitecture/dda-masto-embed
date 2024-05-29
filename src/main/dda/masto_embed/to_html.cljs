@@ -101,7 +101,8 @@
 (defn masto->html [statuses]
   (let [html (b/post-html-hiccup)]
     (map (fn [status]
-           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
+           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status
+                 abc (js/console.log card)]
              (-> html
                  (masto-header->html account created_at url)
                  (masto-content->html content)
@@ -109,43 +110,3 @@
                  (masto-link-prev->html card)
                  (masto-footer->html replies_count reblogs_count favourites_count))))
          statuses)))
-
-(defn find-account-id [host-url account-name]
-  (let [out (chan)]
-    (go
-      (>! out 
-          (->>
-           (<p! (api/get-directory host-url))
-           api/mastojs->edn
-           (filter #(= account-name (:acct %)))
-           (map :id)
-           first)))
-    out))
-
-(defn to-html [host-url account-name]
-  (go
-    (let [account-id (<! (find-account-id host-url account-name))
-          status (->
-                   (<p! (api/get-account-statuses host-url account-id))
-                   api/mastojs->edn)]
-      (->> status
-           (filter #(= nil (:reblog %)))
-           (filter #(= nil (:in_reply_to_account_id %)))
-           (take 4)
-           (masto->html)
-           (render-html)
-           (b/render-to-document)))))
-
-; Execute in browser repl to get some infos about incoming data
-(defn account-mode-debug [host-url account-name]
-  (go
-    (let [account-id (<! (find-account-id host-url account-name))
-          status (->
-                   (<p! (api/get-account-statuses host-url account-id))
-                   api/mastojs->edn)]
-      (->> status
-           (filter #(= nil (:reblog %)))
-           (filter #(= nil (:in_reply_to_account_id %)))
-           (take 1)
-           (infra/debug)
-           ))))
