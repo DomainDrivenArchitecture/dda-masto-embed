@@ -101,8 +101,7 @@
 (defn masto->html [statuses]
   (let [html (b/post-html-hiccup)]
     (map (fn [status]
-           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status
-                 abc (js/console.log card)]
+           (let [{:keys [account created_at content media_attachments replies_count reblogs_count favourites_count card url]} status]
              (-> html
                  (masto-header->html account created_at url)
                  (masto-content->html content)
