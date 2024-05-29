@@ -7,6 +7,8 @@
   display: grid;
   grid: ". post ." / auto auto auto;
 
+  font-size: calc(clamp(0.8rem, 19200.75rem - 40000vw, 1.0rem) + max(0.75rem, 0.5rem + 0.5208333vw) - 0.75rem);
+
   .mastodon-post {
     grid-area: post;
     justify-self: center;
@@ -193,35 +195,6 @@
       }
     }
   }
-
-  @media screen and (max-width: 575px) {
-    font-size: 2.1vw;
-  }
-  
-  @media screen and (min-width: 576px) {
-    font-size: 2vw;
-  }
-  
-  @media screen and (min-width: 768px) {
-    font-size: 2vw;
-  }
-  
-  @media screen and (min-width: 992px) {
-    font-size: 1.5vw;
-  }
-  
-  @media screen and (min-width: 1200px) {
-    font-size: 1.25vw;
-  }
-  
-  @media screen and (min-width: 1400px) {
-    font-size: 1.1vw;
-  }
-  
-  @media screen and (min-width: 2004px) {
-    font-size: 1vw;
-  }
-
 }
 
 .section.replies-mode {
@@ -232,6 +205,8 @@
   
   display: grid;
   grid: ". post ." / auto auto auto;
+
+  font-size: calc(clamp(0.8rem, 19200.75rem - 40000vw, 1.0rem) + max(0.75rem, 0.5rem + 0.5208333vw) - 0.75rem);
 
   .mastodon-post {
     grid-area: post;
@@ -301,13 +276,14 @@
       grid-area: content;
       display: grid;
       grid: 
-      "image text" / auto;
+      "image text" / minmax(40%, 108px) auto;
       padding: var(--medium);
 
       .mastodon-post-text {
         grid-area: text;
         align-self: center;
-        padding: var(--medium);
+        display: grid;        
+        padding: var(--medium) 0 var(--medium) var(--medium);
       }
   
       .mastodon-post-image {
@@ -371,34 +347,6 @@
     .mastodon-post-footer {
       display: none;
     }
-  }
-
-  @media screen and (max-width: 575px) {
-    font-size: 2.1vw;
-  }
-  
-  @media screen and (min-width: 576px) {
-    font-size: 2vw;
-  }
-  
-  @media screen and (min-width: 768px) {
-    font-size: 2vw;
-  }
-  
-  @media screen and (min-width: 992px) {
-    font-size: 1.5vw;
-  }
-  
-  @media screen and (min-width: 1200px) {
-    font-size: 1.25vw;
-  }
-  
-  @media screen and (min-width: 1400px) {
-    font-size: 1.1vw;
-  }
-  
-  @media screen and (min-width: 2004px) {
-    font-size: 1vw;
   }
 
 }
