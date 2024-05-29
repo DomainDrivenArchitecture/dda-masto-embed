@@ -349,33 +349,5 @@
     }
   }
 
-  @media screen and (max-width: 575px) {
-    font-size: 2.1vw;
-  }
-  
-  @media screen and (min-width: 576px) {
-    font-size: 2vw;
-  }
-  
-  @media screen and (min-width: 768px) {
-    font-size: 2vw;
-  }
-  
-  @media screen and (min-width: 992px) {
-    font-size: 1.5vw;
-  }
-  
-  @media screen and (min-width: 1200px) {
-    font-size: 1.25vw;
-  }
-  
-  @media screen and (min-width: 1400px) {
-    font-size: 1.1vw;
-  }
-  
-  @media screen and (min-width: 2004px) {
-    font-size: 1vw;
-  }
-
 }
 
