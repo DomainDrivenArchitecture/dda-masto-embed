@@ -46,8 +46,7 @@
         (cm/replace-all-matching-values-by-new-value "DISPLAY_NAME" display_name)
         (cm/replace-all-matching-values-by-new-value "ACCOUNT_NAME" (str "@" username))
         (cm/replace-all-matching-values-by-new-value "DATETIME" created_at)
-        (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "EEEE, dd MMMM yyyy") date))
-        )))
+        (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "EEEE, dd MMMM yyyy") date)))))
 
 (defn masto-content->html [html content]
     (-> html
