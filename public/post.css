@@ -276,13 +276,14 @@
       grid-area: content;
       display: grid;
       grid: 
-      "image text" / auto;
+      "image text" / minmax(40%, 108px) auto;
       padding: var(--medium);
 
       .mastodon-post-text {
         grid-area: text;
         align-self: center;
-        padding: var(--medium);
+        display: grid;        
+        padding: var(--medium) 0 var(--medium) var(--medium);
       }
   
       .mastodon-post-image {
