@@ -9,7 +9,7 @@ name = 'dda-masto-embed'
 MODULE = 'not-used'
 PROJECT_ROOT_PATH = '.'
 
-version = "1.0.0"
+version = "1.0.1-dev"
 
 @init
 def initialize(project):
