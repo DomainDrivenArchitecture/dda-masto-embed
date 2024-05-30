@@ -13,9 +13,9 @@ dda-masto-embed embedd either your timeline or replies to a specific post on you
 * example for embedding a timeline at [meissa.de/news](https://meissa.de/news/)
 * example for embedding replies to a specific post at [meissa.de/sustainibility_microplastic](https://meissa.de/about-meissa/03plastik-aktion/)
 * Download latest version at:
-  * [dda-masto-embed.js](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js)
-  * [dda-masto-embed.js.sha256](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha256)
-  * [dda-masto-embed.js.sha512](https://domaindrivenarchitecture.org/downloads/dda-masto-embed.js.sha512)
+  * [dda-masto-embed.js](https://repo.prod.meissa.de/attachments/fd727528-0ab4-42d1-bade-8ff129997315)
+  * [dda-masto-embed.js.sha256](https://repo.prod.meissa.de/attachments/fd727528-0ab4-42d1-bade-8ff129997315)
+  * [dda-masto-embed.js.sha512](https://repo.prod.meissa.de/attachments/fd727528-0ab4-42d1-bade-8ff129997315)
 * It is **OpenSource** - published under the Apache License, Version 2.0
 
 ### css and html as base
