@@ -8,7 +8,10 @@
   grid: ". post ." / auto auto auto;
 
   font-size: calc(clamp(0.8rem, 19200.75rem - 40000vw, 1.0rem) + max(0.75rem, 0.5rem + 0.5208333vw) - 0.75rem);
-
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  
   .mastodon-post {
     grid-area: post;
     justify-self: center;
@@ -119,9 +122,10 @@
       .mastodon-post-link-info {
         grid-area: info;
         grid: 
-        "." "link-title" "."
-        "." "link-description" "."
-        "." "link-url" "." / auto auto auto;
+        "link-title"
+        "link-description"
+        "link-url"
+        / auto;
         padding: var(--small);
         
         .mastodon-post-link-title {
@@ -131,8 +135,9 @@
         }
       
         .mastodon-post-link-description {
-          color: #383838;
           grid-area: link-description;
+          color: #383838;
+          padding-bottom: var(--medium);
         }
       
         .mastodon-post-link-url {
