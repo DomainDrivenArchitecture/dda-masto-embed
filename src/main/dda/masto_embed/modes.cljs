@@ -61,7 +61,7 @@
            first)))
     out))
 
-(defn replies-mode [host-url account-name post-id filter-favorited]
+(defn replies-mode-raw [host-url account-name post-id filter-favorited]
   (go
     (let [replies (->
                    (<p! (api/get-replies host-url post-id))
@@ -71,12 +71,16 @@
       (->> combined
            (filter #(or (not filter-favorited) (:favorited %)))
            (reverse)
-           (map :status)
-           (th/masto->html "replies-mode")
-           (render-html)
-           (b/render-to-document)))))
+           (map :status)))))
 
-(defn account-mode [host-url account-name]
+(defn replies-mode [host-url account-name post-id filter-favorited]
+  (go
+    (->> (replies-mode-raw host-url account-name post-id filter-favorited)
+         (th/masto->html "replies-mode")
+         (render-html)
+         (b/render-to-document))))
+
+(defn account-mode-raw [host-url account-name]
   (go
     (let [account-id (<! (find-account-id host-url account-name))
           status (->
@@ -85,7 +89,11 @@
       (->> status
            (filter #(= nil (:reblog %)))
            (filter #(= nil (:in_reply_to_account_id %)))
-           (take 4)
-           (th/masto->html "account-mode")
-           (render-html)
-           (b/render-to-document)))))
+           (take 4)))))
+
+(defn account-mode [host-url account-name]
+  (go
+    (->> (account-mode-raw host-url account-name)
+         (th/masto->html "account-mode")
+         (render-html)
+         (b/render-to-document))))
