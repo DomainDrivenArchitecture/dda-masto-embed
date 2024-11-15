@@ -15,12 +15,7 @@
 ; limitations under the License.
 (ns dda.masto-embed.to-html
   (:require
-   [cljs.core.async :refer [go chan <! >!]]
-   [cljs.core.async.interop :refer-macros [<p!]]
-   [hiccups.runtime :refer [render-html]]
    [cljs-time.format :as t]
-   [dda.masto-embed.api :as api]
-   [dda.masto-embed.infra :as infra]
    [dda.masto-embed.browser :as b]
    [dda.c4k-common.common :as cm]
    [clojure.walk :refer [postwalk]]))
@@ -43,16 +38,16 @@
   (let [{:keys [username display_name avatar_static]} account
         date (t/parse created_at)]
     (-> html
-        (cm/replace-all-matching-values-by-new-value "AVATAR_URL" avatar_static)
-        (cm/replace-all-matching-values-by-new-value "POST_URL" url)
-        (cm/replace-all-matching-values-by-new-value "DISPLAY_NAME" display_name)
-        (cm/replace-all-matching-values-by-new-value "ACCOUNT_NAME" (str "@" username))
-        (cm/replace-all-matching-values-by-new-value "DATETIME" created_at)
-        (cm/replace-all-matching-values-by-new-value "TIME" (t/unparse (t/formatter "EEEE, dd MMMM yyyy") date)))))
+        (cm/replace-all-matching "AVATAR_URL" avatar_static)
+        (cm/replace-all-matching "POST_URL" url)
+        (cm/replace-all-matching "DISPLAY_NAME" display_name)
+        (cm/replace-all-matching "ACCOUNT_NAME" (str "@" username))
+        (cm/replace-all-matching "DATETIME" created_at)
+        (cm/replace-all-matching "TIME" (t/unparse (t/formatter "EEEE, dd MMMM yyyy") date)))))
 
 (defn masto-content->html [html content]
     (-> html
-        (cm/replace-all-matching-values-by-new-value "POST_TEXT" content)))
+        (cm/replace-all-matching "POST_TEXT" content)))
 
 ; Meant to be used in postwalk on hiccup/hickory html-representation
 (defn insert-into-content [item insertion-element]
@@ -88,20 +83,20 @@
       html
       (-> html
           (insert-link-prev)
-          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_URL" url)
-          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_IMG_URL" image)
-          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_TITLE" (str (truncate title 47) "..."))
-          (cm/replace-all-matching-values-by-new-value "LINK_PREVIEW_DESC" description)))))
+          (cm/replace-all-matching "LINK_PREVIEW_URL" url)
+          (cm/replace-all-matching "LINK_PREVIEW_IMG_URL" image)
+          (cm/replace-all-matching "LINK_PREVIEW_TITLE" (str (truncate title 47) "..."))
+          (cm/replace-all-matching "LINK_PREVIEW_DESC" description)))))
 
 (defn masto-footer->html [html replies_count reblogs_count favourites_count]
   (-> html
-      (cm/replace-all-matching-values-by-new-value "REPLIES_COUNT" replies_count)
-      (cm/replace-all-matching-values-by-new-value "REBLOGS_COUNT" reblogs_count)
-      (cm/replace-all-matching-values-by-new-value "FAVOURITES_COUNT" favourites_count)))
+      (cm/replace-all-matching "REPLIES_COUNT" replies_count)
+      (cm/replace-all-matching "REBLOGS_COUNT" reblogs_count)
+      (cm/replace-all-matching "FAVOURITES_COUNT" favourites_count)))
 
 (defn insert-mode [html mode]
   (-> html
-      (cm/replace-all-matching-values-by-new-value "section MODE" (str "section " mode))))
+      (cm/replace-all-matching "section MODE" (str "section " mode))))
 
 (defn masto->html [mode statuses]
   (let [html (b/post-html-hiccup)]

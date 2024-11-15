@@ -15,12 +15,10 @@
 ; limitations under the License.
 (ns dda.masto-embed.modes
   (:require
-   [cljs.core.async :refer [go close! put! take! timeout chan <! >!]]
+   [cljs.core.async :refer [go chan <! >!]]
    [cljs.core.async.interop :refer-macros [<p!]]
    [hiccups.runtime :refer [render-html]]
-   [cljs-time.format :as t]
    [dda.masto-embed.api :as api]
-   [dda.masto-embed.infra :as infra]
    [dda.masto-embed.browser :as b]
    [dda.masto-embed.to-html :as th]
    ))
@@ -36,8 +34,7 @@
            (<p! (api/get-favorited-by host-url reply-id))
            api/mastojs->edn
            (filter #(= account-name (:acct %)))
-           (empty?)
-           (not))))
+           (seq))))
     out))
 
 (defn favorited? [host-url account-name replies]

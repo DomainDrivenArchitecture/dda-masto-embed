@@ -17,7 +17,6 @@
   (:require
    ["mastodon-api" :as Mastodon]
    [dda.masto-embed.infra :as infra]
-   [cljs-time.format :as t]
    [clojure.spec.alpha :as s]
    [orchestra.core :refer-macros [defn-spec]]))
 
